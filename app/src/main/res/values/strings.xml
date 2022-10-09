@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">wip</string>
+    <string name="error">Ha ocurrido un error inexperado</string>
 </resources>
