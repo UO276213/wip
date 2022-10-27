@@ -15,6 +15,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonLista:
                 tipoLayout = ListaActivity.class;
                 break;
+            case R.id.buttonCalendar:
+                tipoLayout= CalendarActivity.class;
+                break;
         }
         try {
             //Le pasamos el array al layout y lo invocamos
@@ -77,6 +81,5 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
 }

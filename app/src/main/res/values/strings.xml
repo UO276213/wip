@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">wip</string>
     <string name="error">Ha ocurrido un error inexperado</string>
+    <string name="btnCalendarText">Calendar</string>
 </resources>
