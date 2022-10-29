@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonLista:
                 tipoLayout = ListaActivity.class;
                 break;
+            case R.id.buttonMaps:
+                tipoLayout = MapsActivity.class;
+                break;
         }
         try {
             //Le pasamos el array al layout y lo invocamos
