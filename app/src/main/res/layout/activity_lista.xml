@@ -5,7 +5,7 @@
     android:id="@+id/layoutLista"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".layouts.ListaActivity"
+    tools:context=".layouts.ListaFragments"
     android:orientation="vertical">
 
 </LinearLayout>

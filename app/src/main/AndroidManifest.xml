@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+>>>>>>> master
 
     <application
         android:allowBackup="true"
@@ -14,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wip"
         tools:targetApi="31">
+<<<<<<< HEAD
         <activity
             android:name=".layouts.CalendarActivity"
             android:exported="false">
@@ -28,6 +34,12 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+=======
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+>>>>>>> master
         <activity
             android:name=".layouts.MainActivity"
             android:exported="true">
