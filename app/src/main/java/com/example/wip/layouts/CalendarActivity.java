@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wip.R;
@@ -42,6 +43,8 @@ public class CalendarActivity extends AppCompatActivity {
 
     ListView listEvents;
 
+    TextView textViewDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +53,16 @@ public class CalendarActivity extends AppCompatActivity {
         Intent intent = getIntent();
         fiestas = intent.getParcelableArrayListExtra(MainActivity.FIESTAS);
 
+        Calendar calendar = Calendar.getInstance();
+
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
 
         listEvents = findViewById(R.id.listEvents);
 
-        Calendar calendar = Calendar.getInstance();
+        textViewDate = findViewById(R.id.textViewDate);
+
+        textViewDate.setText(calendar.get(Calendar.MONTH));
+
         getEventsForEachMonth(calendar.get(Calendar.MONTH));
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -77,7 +85,8 @@ public class CalendarActivity extends AppCompatActivity {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                //Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
+                calendar.setTime(firstDayOfNewMonth);
+                getEventsForEachMonth(calendar.get(Calendar.MONTH));
             }
         });
     }
