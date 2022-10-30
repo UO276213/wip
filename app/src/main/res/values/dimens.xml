@@ -3,4 +3,5 @@
     <dimen name="titulo">20dp</dimen>
     <dimen name="subtitulo">15dp</dimen>
     <dimen name="espaciado">30dp</dimen>
+    <dimen name="espaciadoGrande">100dp</dimen>
 </resources>
