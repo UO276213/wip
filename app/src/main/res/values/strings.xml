@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">wip</string>
     <string name="error">Ha ocurrido un error inexperado</string>
-<<<<<<< HEAD
     <string name="btnCalendarText">Calendar</string>
-=======
-    <string name="title_activity_maps">MapsActivity</string>
->>>>>>> master
 </resources>

@@ -2,16 +2,13 @@ package com.example.wip.layouts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -24,21 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String FIESTAS = "fiestas";
     private String lugar = "asturias";//cambiar esto en un futuro
-    private ArrayList<Fiesta> fiestas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
-        navigationView.setOnItemSelectedListener(onItemSelectedListener);
-
-        getData();
     }
 
+    //Action del botón
     //Recoge el html de la página solicitada y  llama a un nuevo layout pasandole las fiestas
-    public void getData() {
+    public void getData(View buttom) {
         try {
             //Conseguimos el HTML con la librería "Ion"
             String url = "https://fiestas.net/" + lugar + "/";
@@ -48,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
                         String resultado = result.getResult();
-                        fiestas = ParserFiestas.ParseFiestas(resultado);
+                        ArrayList<Fiesta> fiestas = ParserFiestas.ParseFiestas(resultado);
+                        //Cargamos el nuevo layout
+                        getFiestasLayout(fiestas, buttom);
                     } catch (Exception ex) {
                         Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
                         ex.printStackTrace();
@@ -62,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
     //Carga el layout, pasandole el array de las fiestas
     private void getFiestasLayout(ArrayList<Fiesta> fiestas, View buttom) {
         Class<?> tipoLayout = null;
@@ -75,37 +69,17 @@ public class MainActivity extends AppCompatActivity {
             case R.id.buttonCalendar:
                 tipoLayout= CalendarActivity.class;
                 break;
-=======
-    private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
-        switch (item.getItemId()) {
-            case R.id.list_fragment:
-                loadFragment(ListaFragments.newInstance(fiestas));
-                return true;
-            case R.id.map_fragment:
-                loadFragment(MapsFragment.newInstance(fiestas));
-                return true;
-            case R.id.calendar_fragment:
-                // TODO
-                return true;
->>>>>>> master
         }
-        return false;
-    };
+        try {
+            //Le pasamos el array al layout y lo invocamos
+            Intent itent = new Intent(MainActivity.this, tipoLayout);
+            itent.putParcelableArrayListExtra(FIESTAS, fiestas);
+            startActivity(itent);
 
-    private void loadActivity(Class<?> activityClass) {
-        Intent itent = new Intent(MainActivity.this, activityClass);
-        itent.putParcelableArrayListExtra(FIESTAS, fiestas);
-        startActivity(itent);
+        } catch (Exception e) {
+            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
     }
 
-<<<<<<< HEAD
-=======
-    private void loadFragment(Fragment fragment){
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
-    }
-
->>>>>>> master
 }
