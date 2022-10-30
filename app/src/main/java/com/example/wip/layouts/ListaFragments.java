@@ -10,16 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
+import com.example.wip.utils.adapters.ListaFiestasAdapter;
 
 import java.util.ArrayList;
 
 public class ListaFragments extends Fragment {
 
     private static final String ARG_FIESTAS = "arg_fiestas";
+    private RecyclerView recyclerView;
 
     private ArrayList<Fiesta> fiestas;
 
@@ -58,18 +62,28 @@ public class ListaFragments extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_lista, container, false);
+        return inflater.inflate(R.layout.fragment_lista, container, false);
     }
 
     //Recorre un array de fiestas y las va añadiendo al layout
     private void addToLayout() {
         //Este codigo será igual en las diferentes pantallas, recogemos el array de fiestas
-        LinearLayout layout = getView().findViewById(R.id.layoutLista);
-        for (Fiesta fiesta : fiestas) {
-            //Aquí ya es diferente, depende de lo que queramos añadir
-            TextView texto = new TextView(getContext());
-            texto.setText(fiesta.toString());
-            layout.addView(texto);
-        }
+        recyclerView=(RecyclerView) getActivity().findViewById(R.id.recycler_view_list);
+        recyclerView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        addAdapter();
+    }
+    //Añade el adapter del recycledView
+    private void addAdapter() {
+        ListaFiestasAdapter lpAdapter = new ListaFiestasAdapter(fiestas, new ListaFiestasAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Fiesta fiesta) {
+                //startCategory(category);
+            }
+        });
+        recyclerView.setAdapter(lpAdapter);
     }
 }
