@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(MapsFragment.newInstance(fiestas));
                 return true;
             case R.id.calendar_fragment:
-                // TODO
+                loadActivity(CalendarActivity.class);
                 return true;
         }
         return false;
