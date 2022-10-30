@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="comunidades">
+        <item>Andalucía</item>
+        <item>Aragón</item>
+        <item>Asturias</item>
+        <item>Baleares</item>
+        <item>Canarias</item>
+        <item>Cantabria</item>
+        <item>Castilla La Mancha</item>
+        <item>Castilla y León</item>
+        <item>Cataluña</item>
+        <item>Comunidad Valenciana</item>
+        <item>Extremadura</item>
+        <item>Galicia</item>
+        <item>La Rioja</item>
+        <item>Madrid</item>
+        <item>Murcia</item>
+        <item>Navarra</item>
+        <item>País Vasco</item>
+    </string-array>
+    <string-array name="comunidades_valores">
+        <item>andalucia</item>
+        <item>aragon</item>
+        <item>asturias</item>
+        <item>baleares</item>
+        <item>canarias</item>
+        <item>cantabria</item>
+        <item>castilla-la-mancha</item>
+        <item>castilla-leon</item>
+        <item>cataluna</item>
+        <item>comunidad-valenciana</item>
+        <item>extremadura</item>
+        <item>galicia</item>
+        <item>la-rioja</item>
+        <item>comunidad-madrid</item>
+        <item>region-murcia</item>
+        <item>navarra</item>
+        <item>pais-vasco</item>
+    </string-array>
+</resources>
