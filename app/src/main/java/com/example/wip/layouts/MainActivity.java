@@ -2,17 +2,14 @@ package com.example.wip.layouts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.transition.FragmentTransitionSupport;
 
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
@@ -21,7 +18,6 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
         switch (item.getItemId()) {
             case R.id.list_fragment:
-                loadActivity(ListaActivity.class);
+                loadFragment(ListaFragments.newInstance(fiestas));
                 return true;
             case R.id.map_fragment:
                 loadFragment(MapsFragment.newInstance(fiestas));
