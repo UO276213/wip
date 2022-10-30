@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/list_fragment"
+        android:icon="@drawable/navbar_icon_list"
+        android:title="Ver lista" />
+
+    <item
+        android:id="@+id/map_fragment"
+        android:icon="@drawable/navbar_icon_map"
+        android:title="Ver mapa" />
+
+    <item
+        android:id="@+id/calendar_fragment"
+        android:icon="@drawable/navbar_icon_calendar"
+        android:title="Ver calendario" />
+
+</menu>
