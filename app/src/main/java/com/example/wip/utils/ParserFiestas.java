@@ -2,7 +2,10 @@ package com.example.wip.utils;
 
 import com.example.wip.modelo.Fiesta;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ParserFiestas {
 
@@ -26,5 +29,87 @@ public class ParserFiestas {
         fiesta.setDate(texto.split("class=\"dates\">")[1].split("</span>")[0].split("\n")[0]);
         fiesta.setName(texto.split("class=\"name\">")[1].split("</a>|</span>")[0]);
         return fiesta;
+    }
+
+    public static ArrayList<Integer> parserDate(String date){
+        String[] dateSplitted = date.split(" ");
+        if(dateSplitted.length<=3){
+            int day = Integer.parseInt(dateSplitted[0]);
+            String month = dateSplitted[2];
+            int result=-1;
+            result = parserMonth(month, result);
+            ArrayList<Integer> parse_date= new ArrayList<Integer>();
+            parse_date.add(day);
+            parse_date.add(result);
+            return parse_date;
+        }
+        return null;
+
+    }
+
+    private static int parserMonth(String month, int result) {
+        switch(month){
+            case "enero":
+            {
+                result =0;
+                break;
+            }
+            case "febrero":
+            {
+                result =1;
+                break;
+            }
+            case "marzo":
+            {
+                result =2;
+                break;
+            }
+            case "abril":
+            {
+                result =3;
+                break;
+            }
+            case "mayo":
+            {
+                result =4;
+                break;
+            }
+            case "junio":
+            {
+                result =5;
+                break;
+            }
+            case "julio":
+            {
+                result =6;
+                break;
+            }
+            case "agosto":
+            {
+                result =7;
+                break;
+            }
+            case "septiembre":
+            {
+                result =8;
+                break;
+            }
+            case "octubre":
+            {
+                result =9;
+                break;
+            }
+            case "noviembre":
+            {
+                result =10;
+                break;
+            }
+            case "diciembre":
+            {
+                result =11;
+                break;
+            }
+        }
+        return result;
     }
 }
