@@ -1,18 +1,21 @@
 package com.example.wip.layouts;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
@@ -27,64 +30,60 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements
+public class MapsFragment extends Fragment implements
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private GoogleMap mMap;
-
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final String ARG_FIESTAS = "arg_fiestas";
 
-    /**
-     * Flag indicating whether a requested permission has been denied after returning in {@link
-     * #onRequestPermissionsResult(int, String[], int[])}.
-     */
-    private boolean permissionDenied = false;
+    private GoogleMap mMap;
+    private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        /**
+         * Manipulates the map once available.
+         */
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
 
-        setContentView(R.layout.activity_maps);
+            // Intentamos localizar al usuario
+            enableMyLocation();
 
-//        binding = ActivityMapsBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
+            // Obtenemos las fiestas para mostrar marcadores en el MAPS
+            addPartyMarkers();
+        }
+    };
+    private ArrayList<Fiesta> fiestas;
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+    public MapsFragment() {
     }
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     * @return A new instance of fragment MapsFragment.
      */
+    public static MapsFragment newInstance(ArrayList<Fiesta> fiestas) {
+        MapsFragment fragment = new MapsFragment();
+        Bundle args = new Bundle();
+        if (fiestas == null) fiestas = new ArrayList<>();
+        args.putParcelableArrayList(ARG_FIESTAS, fiestas);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Intentamos localizar al usuario
-        enableMyLocation();
-
-
-        // Obtenemos las fiestas para mostrar marcadores en el MAPS
-        addPartyMarkers();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+        }
     }
 
     private void addPartyMarkers() {
-        Intent intent = getIntent();
-        ArrayList<Fiesta> fiestas = intent.getParcelableArrayListExtra(MainActivity.FIESTAS);
 
         // Servicio que nos permite traducir nombre de ubicaciones a coordenadas
-        Geocoder geocoder = new Geocoder(getApplicationContext());
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext());
         try {
             // Recorremos todas las fiestas para incluirlas con un marcador en el mapa
             for (Fiesta fiesta : fiestas) {
@@ -109,9 +108,9 @@ public class MapsActivity extends FragmentActivity implements
     @SuppressLint("MissingPermission")
     private void enableMyLocation() {
         // Comprobamos si tenemos permisos de ubicación
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                || ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
             // Si los tenemos, activamos el botón de centrar la ubicación actual
@@ -140,6 +139,24 @@ public class MapsActivity extends FragmentActivity implements
                             grantResults[i] == PackageManager.PERMISSION_GRANTED)
                 enableMyLocation();
 
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_maps, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
         }
     }
 
