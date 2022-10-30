@@ -23,6 +23,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -92,7 +94,8 @@ public class MapsFragment extends Fragment implements
                 if (!fiestaAddress.isEmpty()) {
                     LatLng coords = new LatLng(fiestaAddress.get(0).getLatitude(), fiestaAddress.get(0).getLongitude());
 
-                    mMap.addMarker(new MarkerOptions().position(coords).title(fiesta.getName()));
+                    mMap.addMarker(new MarkerOptions().position(coords).title(fiesta.getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.party_marker_icon)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
                 }
             }
