@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.example.wip.R;
 
@@ -26,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         cargarFietas();
         loadSpinner();
-        loadButton();
+        loadButtons();
     }
 
     private void cargarFietas() {
@@ -38,14 +35,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void loadButton() {
-        Button button = findViewById(R.id.search);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buscarFiestas();
-            }
+    private void loadButtons() {
+        Button searchBtn = findViewById(R.id.search);
+        searchBtn.setOnClickListener(view -> buscarFiestas());
+
+        Button loadFromGalleryBtn = findViewById(R.id.buttonLoadPicture);
+        loadFromGalleryBtn.setOnClickListener(view -> {
+            Intent itent = new Intent(MainActivity.this, ImageGalleryActivity.class);
+            startActivity(itent);
         });
+
     }
 
     private void buscarFiestas() {
