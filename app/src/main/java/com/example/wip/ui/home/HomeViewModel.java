@@ -8,15 +8,16 @@ import com.example.wip.R;
 
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    //private final MutableLiveData<String> mText;
+
 
     public HomeViewModel() {
 
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        /*mText = new MutableLiveData<>();
+        mText.setValue("This is home fragment");*/
     }
 
-    public LiveData<String> getText() {
+   /* public LiveData<String> getText() {
         return mText;
-    }
+    }*/
 }

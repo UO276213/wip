@@ -2,15 +2,19 @@ package com.example.wip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
 import com.example.wip.databinding.ActivityNavigationBinding;
+import com.example.wip.databinding.FragmentGalleryBinding;
+import com.example.wip.databinding.FragmentHomeBinding;
 import com.example.wip.layouts.CalendarFragment;
 import com.example.wip.layouts.ListaFragments;
 import com.example.wip.layouts.MainActivity;
 import com.example.wip.layouts.MapsFragment;
 import com.example.wip.modelo.Fiesta;
+import com.example.wip.ui.gallery.GalleryFragment;
 import com.example.wip.utils.ParserFiestas;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -38,7 +42,7 @@ public class NavigationActivity extends AppCompatActivity {
     private ActivityNavigationBinding binding;
     public static final String FIESTAS = "fiestas";
     private String lugar = "asturias";//cambiar esto en un futuro
-    private ArrayList<Fiesta> fiestas;
+    public static ArrayList<Fiesta> fiestas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +71,12 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-        BottomNavigationView nav = findViewById(R.id.bottom_navigation);
-        nav.setOnItemSelectedListener(onItemSelectedListener);
+        /*BottomNavigationView nav = findViewById(R.id.bottom_navigation);
+        nav.setOnItemSelectedListener(onItemSelectedListener);*/
 
         Intent intent = getIntent();
         lugar = intent.getStringExtra(MainActivity.COMUNIDAD);
         getData();
-
     }
 
     @Override
@@ -103,7 +105,7 @@ public class NavigationActivity extends AppCompatActivity {
                         // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
                         String resultado = result.getResult();
                         fiestas = ParserFiestas.ParseFiestas(resultado);
-                        loadFragment(ListaFragments.newInstance(fiestas));//Pantalla por defecto
+                        //loadFragment(ListaFragments.newInstance(fiestas));//Pantalla por defecto
 
                     } catch (Exception ex) {
                         Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
@@ -118,18 +120,20 @@ public class NavigationActivity extends AppCompatActivity {
         }
     }
 
-    private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
-        switch (item.getItemId()) {
-            case R.id.list_fragment:
-                loadFragment(ListaFragments.newInstance(fiestas));
-                return true;
-            case R.id.map_fragment:
-                loadFragment(MapsFragment.newInstance(fiestas));
-                return true;
-            case R.id.calendar_fragment:
-                loadFragment(CalendarFragment.newInstance(fiestas));
-                return true;
-        }
+    /*private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
+            switch (item.getItemId()) {
+                case R.id.list_fragment:
+                    loadFragment(ListaFragments.newInstance(fiestas));
+                    return true;
+                case R.id.map_fragment:
+                    loadFragment(MapsFragment.newInstance(fiestas));
+                    return true;
+                case R.id.calendar_fragment:
+                    loadFragment(CalendarFragment.newInstance(fiestas));
+                    return true;
+            }
+
+
         return false;
     };
 
@@ -142,7 +146,7 @@ public class NavigationActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment){
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.nav_host_fragment_content_navigation, fragment);
         transaction.commit();
-    }
+    }*/
 }
