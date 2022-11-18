@@ -6,9 +6,20 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Fiesta implements Parcelable {
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String name="";
     private String date="";
     private String place="";
+    private boolean isFavorite;
 
     protected Fiesta(Parcel in) {
         name = in.readString();

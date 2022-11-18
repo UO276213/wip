@@ -120,33 +120,4 @@ public class NavigationActivity extends AppCompatActivity {
         }
     }
 
-    /*private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
-            switch (item.getItemId()) {
-                case R.id.list_fragment:
-                    loadFragment(ListaFragments.newInstance(fiestas));
-                    return true;
-                case R.id.map_fragment:
-                    loadFragment(MapsFragment.newInstance(fiestas));
-                    return true;
-                case R.id.calendar_fragment:
-                    loadFragment(CalendarFragment.newInstance(fiestas));
-                    return true;
-            }
-
-
-        return false;
-    };
-
-    private void loadActivity(Class<?> activityClass) {
-        Intent itent = new Intent(NavigationActivity.this, activityClass);
-        itent.putParcelableArrayListExtra(FIESTAS, fiestas);
-        startActivity(itent);
-    }
-
-    private void loadFragment(Fragment fragment){
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.nav_host_fragment_content_navigation, fragment);
-        transaction.commit();
-    }*/
 }
