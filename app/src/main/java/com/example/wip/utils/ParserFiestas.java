@@ -116,9 +116,11 @@ public class ParserFiestas {
 
     public static String ParseDetails(String resultado) {
         String details="";
-        String[] splitted = resultado.split("<article>|</article>");
-        details=splitted[1];
-
-        return details;
+        String[] splitted = resultado.split("<article>|</article>")[1].split("<script|</script>");
+        for(int i=0;i<splitted.length;i++){
+            if(i!=1)
+                details+=splitted[i];
+        }
+        return details.replaceAll("<[^>]+>", "").replaceAll("\\t", "").replaceAll("\n+","\n");
     }
 }
