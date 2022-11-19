@@ -82,9 +82,9 @@ public class ListaFragments extends Fragment {
         ListaFiestasAdapter lpAdapter = new ListaFiestasAdapter(fiestas, new ListaFiestasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fiesta fiesta) {
-              /*  Intent itent = new Intent(getContext(), FragmentActivity.class);
+                Intent itent = new Intent(getContext(), FragmentActivity.class);
                 itent.putExtra(MainActivity.COMUNIDAD, fiesta.getTownURL());
-                startActivity(itent);*/
+                startActivity(itent);
             }
         }, new ListaFiestasAdapter.OnItemClickListener() {
             @Override
