@@ -25,6 +25,10 @@ public class ParserFiestas {
         fiesta.setPlace(texto.split("class=\"town\">")[1].split("</a>|</span>")[0]);
         fiesta.setDate(texto.split("class=\"dates\">")[1].split("</span>")[0].split("\n")[0]);
         fiesta.setName(texto.split("class=\"name\">")[1].split("</a>|</span>")[0]);
+        try{
+            fiesta.setTownURL(texto.split("class=\"town\">")[0].split("<a href=")[1].split("\"")[1]);}catch (Exception e){}
+        try{
+            fiesta.setDetails(texto.split("</p>")[1].split("class=\"name\">")[0].split("<a href=")[1].split("\"")[1]);}catch (Exception e){}
         return fiesta;
     }
 
@@ -108,5 +112,15 @@ public class ParserFiestas {
             }
         }
         return result;
+    }
+
+    public static String ParseDetails(String resultado) {
+        String details="";
+        String[] splitted = resultado.split("<article>|</article>")[1].split("<script|</script>");
+        for(int i=0;i<splitted.length;i++){
+            if(i!=1)
+                details+=splitted[i];
+        }
+        return details.replaceAll("<[^>]+>", "").replaceAll("\\t", "").replaceAll("\n+","\n");
     }
 }

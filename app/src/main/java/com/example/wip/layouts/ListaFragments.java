@@ -1,5 +1,6 @@
 package com.example.wip.layouts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 
 public class ListaFragments extends Fragment {
 
-    private static final String ARG_FIESTAS = "arg_fiestas";
+    public static final String ARG_FIESTAS = "arg_fiestas";
     private RecyclerView recyclerView;
 
     private ArrayList<Fiesta> fiestas;
@@ -81,7 +82,16 @@ public class ListaFragments extends Fragment {
         ListaFiestasAdapter lpAdapter = new ListaFiestasAdapter(fiestas, new ListaFiestasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fiesta fiesta) {
-                //startCategory(category);
+              /*  Intent itent = new Intent(getContext(), FragmentActivity.class);
+                itent.putExtra(MainActivity.COMUNIDAD, fiesta.getTownURL());
+                startActivity(itent);*/
+            }
+        }, new ListaFiestasAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Fiesta fiesta) {
+                Intent itent = new Intent(getContext(), DetailsActivity.class);
+                itent.putExtra(ARG_FIESTAS, fiesta.getDetails());
+                startActivity(itent);
             }
         });
         recyclerView.setAdapter(lpAdapter);

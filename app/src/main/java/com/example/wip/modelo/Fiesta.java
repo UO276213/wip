@@ -9,11 +9,15 @@ public class Fiesta implements Parcelable {
     private String name="";
     private String date="";
     private String place="";
+    private String details="";
+    private String townURL="";
 
     protected Fiesta(Parcel in) {
         name = in.readString();
         date = in.readString();
         place = in.readString();
+        details= in.readString();
+        townURL= in.readString();
     }
 
     public Fiesta() {
@@ -26,6 +30,8 @@ public class Fiesta implements Parcelable {
         dest.writeString(name);
         dest.writeString(date);
         dest.writeString(place);
+        dest.writeString(details);
+        dest.writeString(townURL);
     }
 
     @Override
@@ -68,10 +74,26 @@ public class Fiesta implements Parcelable {
     public void setPlace(String place) {
         this.place = place;
     }
+    public String getDetails() {
+        return details;
+    }
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getTownURL() {
+        return townURL;
+    }
+
+    public void setTownURL(String townURL) {
+        this.townURL = townURL;
+    }
 
     @NonNull
     @Override
     public String toString() {
         return place+"\n\t"+name+"\n\t\t"+date+"\n";
     }
+
+
 }
