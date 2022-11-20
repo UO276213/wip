@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wip.R;
-import com.example.wip.layouts.FragmentActivity;
-import com.example.wip.layouts.MainActivity;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.UnderLine;
 

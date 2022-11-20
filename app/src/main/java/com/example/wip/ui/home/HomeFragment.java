@@ -20,7 +20,6 @@ import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.databinding.FragmentHomeBinding;
 import com.example.wip.layouts.CalendarFragment;
-import com.example.wip.layouts.FragmentActivity;
 import com.example.wip.layouts.ListaFragments;
 import com.example.wip.layouts.MainActivity;
 import com.example.wip.layouts.MapsFragment;
@@ -46,6 +45,13 @@ public class HomeFragment extends Fragment {
     private View root;
     private String lugar = "asturias";//cambiar esto en un futuro
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        BottomNavigationView nav = getActivity().findViewById(R.id.bottom_navigation2);
+
+        nav.setOnItemSelectedListener(onItemSelectedListener);}
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,8 +62,6 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.activity_fragment, container, false);
 
 
-        BottomNavigationView nav = root.findViewById(R.id.bottom_navigation);
-        nav.setOnItemSelectedListener(onItemSelectedListener);
 
         Intent intent = getActivity().getIntent();
         lugar = intent.getStringExtra(MainActivity.COMUNIDAD);
@@ -111,6 +115,7 @@ public class HomeFragment extends Fragment {
                         // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
                         String resultado = result.getResult();
                         fiestas = ParserFiestas.ParseFiestas(resultado);
+
                         loadFragment(ListaFragments.newInstance(fiestas));//Pantalla por defecto
 
                     } catch (Exception ex) {
@@ -126,7 +131,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
+    public final NavigationBarView.OnItemSelectedListener onItemSelectedListener = item -> {
         switch (item.getItemId()) {
             case R.id.list_fragment:
                 loadFragment(ListaFragments.newInstance(fiestas));

@@ -15,6 +15,7 @@ import com.example.wip.layouts.MainActivity;
 import com.example.wip.layouts.MapsFragment;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.ui.gallery.GalleryFragment;
+import com.example.wip.ui.home.HomeFragment;
 import com.example.wip.utils.ParserFiestas;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -75,9 +76,6 @@ public class NavigationActivity extends AppCompatActivity {
         /*BottomNavigationView nav = findViewById(R.id.bottom_navigation);
         nav.setOnItemSelectedListener(onItemSelectedListener);*/
 
-        Intent intent = getIntent();
-        lugar = intent.getStringExtra(MainActivity.COMUNIDAD);
-        getData();
     }
 
     @Override
@@ -94,31 +92,6 @@ public class NavigationActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    //Recoge el html de la página solicitada y  llama a un nuevo layout pasandole las fiestas
-    public void getData() {
-        try {
-            //Conseguimos el HTML con la librería "Ion"
-            String url = "https://fiestas.net/" + lugar + "/";
-            Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
-                @Override
-                public void onCompleted(Exception e, Response<String> result) {
-                    try {
-                        // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
-                        String resultado = result.getResult();
-                        //loadFragment(ListaFragments.newInstance(fiestas));//Pantalla por defecto
-
-                    } catch (Exception ex) {
-                        Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                        ex.printStackTrace();
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
 
 
 }
