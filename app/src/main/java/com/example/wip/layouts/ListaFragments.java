@@ -39,8 +39,8 @@ public class ListaFragments extends Fragment {
     public static ListaFragments newInstance(ArrayList<Fiesta> fiestas) {
         ListaFragments fragment = new ListaFragments();
         Bundle args = new Bundle();
-        if (fiestas == null) fiestas = new ArrayList<>();
-        args.putParcelableArrayList(ARG_FIESTAS, fiestas);
+//        if (fiestas == null) fiestas = new ArrayList<>();
+//        args.putParcelableArrayList(ARG_FIESTAS, fiestas);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,9 +48,10 @@ public class ListaFragments extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
-        }
+//        if (getArguments() != null) {
+//            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+//        }
+        fiestas = ((NavigationActivity) getActivity()).fiestas;
     }
 
     @Override

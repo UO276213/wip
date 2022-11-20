@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
@@ -47,8 +48,8 @@ public class CalendarFragment extends Fragment {
     public static CalendarFragment newInstance(ArrayList<Fiesta> fiestas) {
         CalendarFragment fragment = new CalendarFragment();
         Bundle args = new Bundle();
-        if (fiestas == null) fiestas = new ArrayList<>();
-        args.putParcelableArrayList(ARG_FIESTAS, fiestas);
+//        if (fiestas == null) fiestas = new ArrayList<>();
+//        args.putParcelableArrayList(ARG_FIESTAS, fiestas);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,9 +57,8 @@ public class CalendarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
-
-
+//        fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+        fiestas = ((NavigationActivity) getActivity()).fiestas;
     }
 
     private void isPartyOnSelectedDay(int year, int month, int dayOfTheMonth) {

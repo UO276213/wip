@@ -30,8 +30,8 @@ public class FragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
-        navigationView.setOnItemSelectedListener(onItemSelectedListener);
+//        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
+//        navigationView.setOnItemSelectedListener(onItemSelectedListener);
 
         Intent intent = getIntent();
         lugar = intent.getStringExtra(MainActivity.COMUNIDAD);

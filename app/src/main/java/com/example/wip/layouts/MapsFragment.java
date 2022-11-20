@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -68,8 +69,8 @@ public class MapsFragment extends Fragment implements
     public static MapsFragment newInstance(ArrayList<Fiesta> fiestas) {
         MapsFragment fragment = new MapsFragment();
         Bundle args = new Bundle();
-        if (fiestas == null) fiestas = new ArrayList<>();
-        args.putParcelableArrayList(ARG_FIESTAS, fiestas);
+//        if (fiestas == null) fiestas = new ArrayList<>();
+//        args.putParcelableArrayList(ARG_FIESTAS, fiestas);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,9 +78,10 @@ public class MapsFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
-        }
+//        if (getArguments() != null) {
+//            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+//        }
+        fiestas = ((NavigationActivity) getActivity()).fiestas;
     }
 
     private void addPartyMarkers() {
