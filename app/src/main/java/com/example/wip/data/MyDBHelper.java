@@ -24,25 +24,12 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public static final String COLUMNA_FECHA_FIESTA = "date_fiesta";
     public static final String COLUMNA_UBI_FIESTA = "ubi_fiesta";
 
+    public static final String TABLA_IMAGENES_SUBIDAS = "tabla_imagenes_subidas";
 
-    /**
-     * Nombre de la tabla películas_reparto y sus columnas
-     * id_reparto;id_pelicula; (estas son Foreign keys); Personaje
-     */
-    public static final String TABLA_PELICULAS_REPARTO = "tabla_peliculas_reparto";
+    public static final String COLUMNA_ID_IMAGEN = "id_imagen";
+    public static final String COLUMNA_PATH = "image_path";
+    public static final String COLUMNA_ID_PARTY = "id_fiesta";
 
-    public static final String COLUMNA_PERSONAJE = "nombre_personaje";
-
-    /**
-     * Nombre de la tabla reparto y sus columnas
-     * id;nombre;imagen;URL_imdb
-     */
-    public static final String TABLA_REPARTO = "tabla_reparto";
-
-    public static final String COLUMNA_ID_REPARTO = "id_reparto";
-    public static final String COLUMNA_NOMBRE_ACTOR = "nombre_actor";
-    public static final String COLUMNA_IMAGEN_ACTOR = "URL_imagen_actor";
-    public static final String COLUMNA_URL_imdb = "URL_imdb_actor";
 
 
     /**
@@ -57,9 +44,20 @@ public class MyDBHelper extends SQLiteOpenHelper {
             ");";
 
     /**
+     * Script para crear la base datos en SQL
+     */
+    private static final String CREATE_TABLA_IMAGENES_SUBIDAS = "create table if not exists " + TABLA_IMAGENES_SUBIDAS
+            + "( " +
+            COLUMNA_ID_IMAGEN + " " + "integer primary key, " +
+            COLUMNA_ID_PARTY + " integer, " +
+            COLUMNA_PATH + " text not null " +
+            ");";
+
+    /**
      * Script para borrar la base de datos (SQL)
      */
     private static final String DATABASE_DROP_PELICULAS = "DROP TABLE IF EXISTS " + TABLA_FIESTAS;
+    private static final String DATABASE_DROP_IMAGENES_SUBIDAS = "DROP TABLE IF EXISTS " + TABLA_IMAGENES_SUBIDAS;
 
 
     public MyDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,
@@ -71,6 +69,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //invocamos execSQL pq no devuelve ningún tipo de dataset
         db.execSQL(CREATE_TABLA_PELICULAS);
+        db.execSQL(CREATE_TABLA_IMAGENES_SUBIDAS);
 
 
         Log.i("ONCREATE", "EJECUTO CREACION");
@@ -79,7 +78,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DATABASE_DROP_PELICULAS);
+        db.execSQL(DATABASE_DROP_IMAGENES_SUBIDAS);
         this.onCreate(db);
-
     }
 }

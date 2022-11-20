@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.provider.MediaStore;
 
+import com.example.wip.data.FiestasDataSource;
+import com.example.wip.data.UploadedImagesDataSource;
 import com.example.wip.utils.adapters.ImageAdapter;
 import com.example.wip.ImageDetailsActivity;
 import com.example.wip.R;
@@ -63,6 +65,8 @@ public class ImageGalleryActivity extends AppCompatActivity {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            UploadedImagesDataSource dataSource= new UploadedImagesDataSource(getApplicationContext());
+            dataSource.open();
 
             if (data.getClipData() != null) {
                 ClipData mClipData = data.getClipData();
@@ -80,13 +84,16 @@ public class ImageGalleryActivity extends AppCompatActivity {
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
                     imagesPaths.add(picturePath);
+
+
+                    dataSource.insertImage(picturePath);
                 }
 
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
 
-                ImageAdapter adapter = new ImageAdapter(imagesPaths, (imagePath, imageView) -> {
+                ImageAdapter adapter = new ImageAdapter(dataSource.getAllValorations(), (imagePath, imageView) -> {
                     Intent intent = new Intent(getApplicationContext(), ImageDetailsActivity.class);
                     intent.putExtra("imagePath", imagePath);
                     startActivity(intent); // start Intent
