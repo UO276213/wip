@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Fiesta> fiestas = new ArrayList<>();
     private View root;
+    private String lugar = "asturias";//cambiar esto en un futuro
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,6 +60,10 @@ public class HomeFragment extends Fragment {
         Log.d("PINCHAR", nav.toString());
         nav.setOnItemSelectedListener(onItemSelectedListener);
 
+
+
+        Intent intent = getActivity().getIntent();
+        lugar = intent.getStringExtra(MainActivity.COMUNIDAD);
         getData();
 
         return root;
@@ -101,7 +106,7 @@ public class HomeFragment extends Fragment {
     public void getData() {
         try {
             //Conseguimos el HTML con la librería "Ion"
-            String url = "https://fiestas.net/asturias" + "/";
+            String url = "https://fiestas.net/"+lugar + "/";
             Ion.with(root.getContext()).load(url).asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
                 @Override
                 public void onCompleted(Exception e, Response<String> result) {
