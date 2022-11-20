@@ -29,7 +29,7 @@ public class  FiestasDataSource {
      * Columnas de la tabla
      */
     private final String[] allColumns = {MyDBHelper.COLUMNA_ID_FIESTAS, MyDBHelper.COLUMNA_NOMBRE_FIESTA,
-            MyDBHelper.COLUMNA_FECHA_FIESTA, MyDBHelper.COLUMNA_UBI_FIESTA};
+            MyDBHelper.COLUMNA_FECHA_FIESTA, MyDBHelper.COLUMNA_UBI_FIESTA, MyDBHelper.COLUMNA_URL_UBI_FIESTA, MyDBHelper.COLUMNA_DETAILS_FIESTA};
 
     /**
      * Constructor.
@@ -74,6 +74,8 @@ public class  FiestasDataSource {
         values.put(MyDBHelper.COLUMNA_NOMBRE_FIESTA, partyToInsert.getName());
         values.put(MyDBHelper.COLUMNA_FECHA_FIESTA, partyToInsert.getDate());
         values.put(MyDBHelper.COLUMNA_UBI_FIESTA, partyToInsert.getPlace());
+        values.put(MyDBHelper.COLUMNA_URL_UBI_FIESTA, partyToInsert.getTownURL());
+        values.put(MyDBHelper.COLUMNA_DETAILS_FIESTA, partyToInsert.getDetails());
 
         // Insertamos la valoracion
         long insertId =
@@ -103,6 +105,8 @@ public class  FiestasDataSource {
             fiesta.setName(cursor.getString(1));
             fiesta.setDate(cursor.getString(2));
             fiesta.setPlace(cursor.getString(3));
+            fiesta.setTownURL(cursor.getString(4));
+            fiesta.setDetails(cursor.getString(5));
 
             partyList.add(fiesta);
             cursor.moveToNext();
