@@ -123,32 +123,29 @@ public class  FiestasDataSource {
     /**
      * Obtiene todas las valoraciones andadidas por los usuarios con el filtro introducido en el SQL.
      *
-     * @return Lista de objetos de tipo Pelicula
+     * @return Lista de objetos de tipo Fiesta
      */
-   /* public List<Pelicula> getFilteredValorations(String filtro) {
+   public List<Fiesta> getFilteredValorations(String nombreFiesta) {
         // Lista que almacenara el resultado
-        List<Pelicula> peliculaList = new ArrayList<Pelicula>();
+        List<Fiesta> partyList = new ArrayList<>();
         //hacemos una query porque queremos devolver un cursor
 
         Cursor cursor = database.rawQuery("Select * " +
-                " FROM " + MyDBHelper.TABLA_PELICULAS +
-                " WHERE " + MyDBHelper.TABLA_PELICULAS + "." + MyDBHelper.COLUMNA_CATEGORIA_PELICULAS + " = \"" + filtro + "\"", null);
+                " FROM " + MyDBHelper.TABLA_FIESTAS +
+                " WHERE " + MyDBHelper.TABLA_FIESTAS + "." + MyDBHelper.COLUMNA_NOMBRE_FIESTA + " = \"" + nombreFiesta + "\"", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            final Pelicula pelicula = new Pelicula();
-            pelicula.setId(cursor.getInt(0));
-            pelicula.setTitulo(cursor.getString(1));
-            pelicula.setArgumento(cursor.getString(2));
-            pelicula.setCategoria(new Categoria(cursor.getString(3), ""));
-            pelicula.setDuracion(cursor.getString(4));
-            pelicula.setFecha(cursor.getString(5));
-            pelicula.setUrlCaratula("https://image.tmdb.org/t/p/original/" + cursor.getString(6));
-            pelicula.setUrlFondo("https://image.tmdb.org/t/p/original/" + cursor.getString(7));
-            pelicula.setUrlTrailer("https://youtu.be/" + cursor.getString(8));
+            final Fiesta fiesta = new Fiesta();
+            cursor.getInt(0);
+            fiesta.setId(cursor.getInt(0));
+            fiesta.setName(cursor.getString(1));
+            fiesta.setDate(cursor.getString(2));
+            fiesta.setPlace(cursor.getString(3));
+            fiesta.setTownURL(cursor.getString(4));
+            fiesta.setDetails(cursor.getString(5));
 
-
-            peliculaList.add(pelicula);
+            partyList.add(fiesta);
             cursor.moveToNext();
         }
 
@@ -156,12 +153,17 @@ public class  FiestasDataSource {
         // Una vez obtenidos todos los datos y cerrado el cursor, devolvemos la
         // lista.
 
-        return peliculaList;
-    }*/
+        return partyList;
+    }
 
     public int deleteParty(Fiesta fiesta) {
         String[] argumentos = {String.valueOf(fiesta.getId())};
         return database.delete(MyDBHelper.TABLA_FIESTAS, "id_fiesta = ?", argumentos);
+    }
+
+    public int deleteParty(String nombre) {
+        String[] argumentos = {nombre};
+        return database.delete(MyDBHelper.TABLA_FIESTAS, "name_fiesta = ?", argumentos);
     }
 
 }

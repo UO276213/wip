@@ -75,11 +75,6 @@ public class MainActivity extends AppCompatActivity {
         Button searchBtn = findViewById(R.id.search);
         searchBtn.setOnClickListener(view -> buscarFiestas());
 
-        Button loadFromGalleryBtn = findViewById(R.id.buttonLoadPicture);
-        loadFromGalleryBtn.setOnClickListener(view -> {
-            Intent itent = new Intent(MainActivity.this, ImageGalleryActivity.class);
-            startActivity(itent);
-        });
     }
 
     private void buscarFiestas() {

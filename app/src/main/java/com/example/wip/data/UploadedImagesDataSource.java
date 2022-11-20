@@ -61,15 +61,16 @@ public class UploadedImagesDataSource {
      * Recibe la imagen y crea el registro en la base de datos.
      *
      * @param path
+     * @param fiestaId
      * @return
      */
-    public long insertImage(String path) {
+    public long insertImage(String path, int fiestaId) {
         // Establecemos los valores que se insertaran
         ContentValues values = new ContentValues();
         int id = new Random().nextInt();
 
         values.put(MyDBHelper.COLUMNA_ID_IMAGEN, id);
-        values.put(MyDBHelper.COLUMNA_ID_PARTY, 1);
+        values.put(MyDBHelper.COLUMNA_ID_PARTY, fiestaId);
         values.put(MyDBHelper.COLUMNA_PATH, path);
 
         // Insertamos la valoracion
@@ -105,9 +106,7 @@ public class UploadedImagesDataSource {
         return images;
     }
 
-
-
-   public List<String> getFilteredValorations(int idImagen) {
+    public List<String> getFilteredValorations(int idImagen) {
         // Lista que almacenara el resultado
         List<String> resultado = new ArrayList<>();
         //hacemos una query porque queremos devolver un cursor
@@ -128,6 +127,7 @@ public class UploadedImagesDataSource {
 
         return resultado;
     }
+
     public int deleteImage(String imagePath) {
         String[] argumentos = {imagePath};
         return database.delete(MyDBHelper.TABLA_IMAGENES_SUBIDAS, "image_path = ?", argumentos);
