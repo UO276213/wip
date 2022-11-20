@@ -1,5 +1,6 @@
 package com.example.wip.layouts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.adapters.ListaFiestasAdapter;
@@ -22,7 +25,8 @@ import java.util.ArrayList;
 
 public class ListaFragments extends Fragment {
 
-    private static final String ARG_FIESTAS = "arg_fiestas";
+    public static final String ARG_FIESTAS = "arg_fiestas";
+    public static final String FIESTA_SELECCIONADA = "fiesta_seleccionada";
     private RecyclerView recyclerView;
 
     private ArrayList<Fiesta> fiestas;
@@ -81,7 +85,17 @@ public class ListaFragments extends Fragment {
         ListaFiestasAdapter lpAdapter = new ListaFiestasAdapter(fiestas, new ListaFiestasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fiesta fiesta) {
-                //startCategory(category);
+                Intent itent = new Intent(getContext(), NavigationActivity.class);
+                itent.putExtra(MainActivity.COMUNIDAD, fiesta.getTownURL());
+                startActivity(itent);
+            }
+        }, new ListaFiestasAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Fiesta fiesta) {
+                Intent itent = new Intent(getContext(), DetailsActivity.class);
+                itent.putExtra(ARG_FIESTAS, fiesta.getDetails());
+                itent.putExtra(FIESTA_SELECCIONADA,fiesta);
+                startActivity(itent);
             }
         });
         recyclerView.setAdapter(lpAdapter);
