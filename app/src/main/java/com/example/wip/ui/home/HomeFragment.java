@@ -57,10 +57,7 @@ public class HomeFragment extends Fragment {
 
 
         BottomNavigationView nav = root.findViewById(R.id.bottom_navigation);
-        Log.d("PINCHAR", nav.toString());
         nav.setOnItemSelectedListener(onItemSelectedListener);
-
-
 
         Intent intent = getActivity().getIntent();
         lugar = intent.getStringExtra(MainActivity.COMUNIDAD);

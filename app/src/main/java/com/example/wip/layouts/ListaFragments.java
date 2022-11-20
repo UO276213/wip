@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class ListaFragments extends Fragment {
 
     public static final String ARG_FIESTAS = "arg_fiestas";
+    public static final String FIESTA_SELECCIONADA = "fiesta_seleccionada";
     private RecyclerView recyclerView;
 
     private ArrayList<Fiesta> fiestas;
@@ -93,6 +94,7 @@ public class ListaFragments extends Fragment {
             public void onItemClick(Fiesta fiesta) {
                 Intent itent = new Intent(getContext(), DetailsActivity.class);
                 itent.putExtra(ARG_FIESTAS, fiesta.getDetails());
+                itent.putExtra(FIESTA_SELECCIONADA,fiesta);
                 startActivity(itent);
             }
         });

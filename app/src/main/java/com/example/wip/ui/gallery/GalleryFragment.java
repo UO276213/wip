@@ -40,7 +40,6 @@ public class GalleryFragment extends Fragment {
 
         root = inflater.inflate(R.layout.activity_fragment, container, false);
         getFavPartys();
-
         loadFragment(ListaFragments.newInstance((ArrayList<Fiesta>) fiestas));
         return root;
     }
@@ -56,7 +55,6 @@ public class GalleryFragment extends Fragment {
         fiestasDataSource.open();
         fiestas = fiestasDataSource.getAllValorations();
         fiestasDataSource.close();
-
 
     }
 

@@ -10,7 +10,7 @@ import com.example.wip.modelo.Fiesta;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 
 
 public class FiestasDataSource {
@@ -68,8 +68,9 @@ public class FiestasDataSource {
     public long insertFiesta(Fiesta partyToInsert) {
         // Establecemos los valores que se insertaran
         ContentValues values = new ContentValues();
+        int id = new Random().nextInt();
 
-        values.put(MyDBHelper.COLUMNA_ID_FIESTAS, partyToInsert.getId());
+        values.put(MyDBHelper.COLUMNA_ID_FIESTAS, id);
         values.put(MyDBHelper.COLUMNA_NOMBRE_FIESTA, partyToInsert.getName());
         values.put(MyDBHelper.COLUMNA_FECHA_FIESTA, partyToInsert.getDate());
         values.put(MyDBHelper.COLUMNA_UBI_FIESTA, partyToInsert.getPlace());
@@ -154,6 +155,10 @@ public class FiestasDataSource {
         return peliculaList;
     }*/
 
+    public int deleteParty(Fiesta fiesta) {
+        String[] argumentos = {String.valueOf(fiesta.getId())};
+        return database.delete(MyDBHelper.TABLA_FIESTAS, "id_fiesta = ?", argumentos);
+    }
 
 }
 

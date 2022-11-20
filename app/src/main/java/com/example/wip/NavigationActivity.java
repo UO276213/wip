@@ -35,6 +35,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -104,7 +105,6 @@ public class NavigationActivity extends AppCompatActivity {
                     try {
                         // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
                         String resultado = result.getResult();
-                        fiestas = ParserFiestas.ParseFiestas(resultado);
                         //loadFragment(ListaFragments.newInstance(fiestas));//Pantalla por defecto
 
                     } catch (Exception ex) {
@@ -119,5 +119,6 @@ public class NavigationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
 }
