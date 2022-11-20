@@ -10,18 +10,14 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.content.Intent;
 import android.provider.MediaStore;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TableRow;
 
-import com.example.wip.ImageAdapter;
+import com.example.wip.utils.adapters.ImageAdapter;
+import com.example.wip.ImageDetailsActivity;
 import com.example.wip.R;
 
 import java.util.ArrayList;
@@ -40,11 +36,10 @@ public class ImageGalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_gallery);
 
         // Comprobamos si tenemos permiso para acceder a la galeria
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // Si no tenemos permiso, lo solicitamos
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_GALLERY_PERMISSION_REQUEST_CODE);
-        }else{
+        } else {
             // Si tenemos permiso, continuamos
             showUploadView();
         }
@@ -67,13 +62,12 @@ public class ImageGalleryActivity extends AppCompatActivity {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            if (data.getClipData() != null){
+            if (data.getClipData() != null) {
                 ClipData mClipData = data.getClipData();
                 List<String> imagesPaths = new ArrayList<>();
                 for (int i = 0; i < mClipData.getItemCount(); i++) {
-
                     ClipData.Item item = mClipData.getItemAt(i);
                     Uri uri = item.getUri();
                     // Get the cursor
@@ -85,26 +79,25 @@ public class ImageGalleryActivity extends AppCompatActivity {
 
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
-
                     imagesPaths.add(picturePath);
-
                 }
 
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
 
-                ImageAdapter adapter = new ImageAdapter(imagesPaths);
+                ImageAdapter adapter = new ImageAdapter(imagesPaths, (imagePath, imageView) -> {
+                    Intent intent = new Intent(getApplicationContext(), ImageDetailsActivity.class);
+                    intent.putExtra("imagePath", imagePath);
+                    startActivity(intent); // start Intent
+                });
                 recyclerView.setAdapter(adapter);
             }
         }
     }
 
-
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode != READ_GALLERY_PERMISSION_REQUEST_CODE) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             return;
@@ -112,8 +105,7 @@ public class ImageGalleryActivity extends AppCompatActivity {
 
         //  Recorremos los permisos para comprobar si tenemos perimiso para acceder a la galeria
         for (int i = 0; i < permissions.length; i++) {
-            if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE) &&
-                    grantResults[i] == PackageManager.PERMISSION_GRANTED)
+            if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE) && grantResults[i] == PackageManager.PERMISSION_GRANTED)
                 showUploadView();
         }
     }

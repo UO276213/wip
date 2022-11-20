@@ -1,4 +1,4 @@
-package com.example.wip;
+package com.example.wip.utils.adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,19 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+
+import com.example.wip.R;
 
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
 
     private List<String> imagesPaths;
+    private final OnItemClickListener listener;
 
-    public ImageAdapter(List<String> imagesPaths) {
+    public ImageAdapter(List<String> imagesPaths, OnItemClickListener listener) {
         this.imagesPaths = imagesPaths;
+        this.listener = listener;
     }
 
     @NonNull
@@ -30,12 +34,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ImagesViewHolder holder, int position) {
-        holder.bindUser(imagesPaths.get(position));
+        holder.bindUser(imagesPaths.get(position), listener);
     }
 
     @Override
     public int getItemCount() {
         return imagesPaths.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(String imagePath, ImageView imageView);
     }
 
     protected class ImagesViewHolder extends RecyclerView.ViewHolder {
@@ -47,7 +55,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             imageView = itemView.findViewById(R.id.grid_item_image);
         }
 
-        public void bindUser(final String imagePath) {
+        public void bindUser(final String imagePath, OnItemClickListener listener) {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             // evita la asignación de memoria,
@@ -65,6 +73,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
 
             imageView.setImageBitmap(bmp);
+            imageView.setOnClickListener(view -> listener.onItemClick(imagePath, imageView));
         }
 
         /*
