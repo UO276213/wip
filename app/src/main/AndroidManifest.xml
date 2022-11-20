@@ -44,15 +44,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".layouts.NavigationActivity"
-            android:exported="false"
-            android:label="@string/title_activity_navigation"
-            android:theme="@style/Theme.Wip.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".layouts.MainActivity"
             android:exported="true">
             <intent-filter>
