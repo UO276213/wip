@@ -11,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.adapters.ListaFiestasAdapter;
@@ -82,7 +84,7 @@ public class ListaFragments extends Fragment {
         ListaFiestasAdapter lpAdapter = new ListaFiestasAdapter(fiestas, new ListaFiestasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Fiesta fiesta) {
-                Intent itent = new Intent(getContext(), FragmentActivity.class);
+                Intent itent = new Intent(getContext(), NavigationActivity.class);
                 itent.putExtra(MainActivity.COMUNIDAD, fiesta.getTownURL());
                 startActivity(itent);
             }

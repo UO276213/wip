@@ -50,7 +50,7 @@ public class FragmentActivity extends AppCompatActivity {
                         // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
                         String resultado = result.getResult();
                         fiestas = ParserFiestas.ParseFiestas(resultado);
-                        loadFragment(ListaFragments.newInstance(fiestas));//Pantalla por defecto
+                        //loadFragment(ListaFragments.newInstance(fiestas));//Pantalla por defecto
 
                     } catch (Exception ex) {
                         Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
@@ -89,8 +89,10 @@ public class FragmentActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment){
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.nav_host_fragment_content_navigation, fragment);
         transaction.commit();
     }
+
+
 
 }

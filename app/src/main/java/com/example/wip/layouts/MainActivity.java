@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.utils.ParserLugares;
 import com.google.android.material.snackbar.Snackbar;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buscarFiestas() {
-        Intent itent = new Intent(MainActivity.this, FragmentActivity.class);
+        Intent itent = new Intent(MainActivity.this, NavigationActivity.class);
         itent.putExtra(COMUNIDAD, comunidad);
         startActivity(itent);
     }
