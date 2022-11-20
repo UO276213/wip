@@ -38,4 +38,60 @@
         <item>navarra</item>
         <item>pais-vasco</item>
     </string-array>
+
+    <string-array name="Andalucía">
+        <item>Almería</item>
+        <item>Cádiz</item>
+        <item>Córdoba</item>
+        <item>Granada</item>
+        <item>Huelva</item>
+        <item>Jaén</item>
+        <item>Málaga</item>
+        <item>Sevilla</item>
+    </string-array>
+    <string-array name="andalucia">
+        <item>almeria-provincia</item>
+        <item>cadiz-provincia</item>
+        <item>cordoba-provincia</item>
+        <item>granada-provincia</item>
+        <item>huelva-provincia</item>
+        <item>jaen-provincia</item>
+        <item>malaga-provincia</item>
+        <item>sevilla-provincia</item>
+    </string-array>
+
+    <string-array name="Aragón">
+        <item>Huesca</item>
+        <item>Teruel</item>
+        <item>Zaragoza</item>
+    </string-array>
+    <string-array name="aragon">
+        <item>huesca-provincia</item>
+        <item>teruel-provincia</item>
+        <item>zaragoza-provincia</item>
+    </string-array>
+
+    <string-array name="Canarias">
+        <item>Las Palmas</item>
+        <item>Tenerife</item>
+    </string-array>
+    <string-array name="canarias">
+        <item>las-palmas-provincia</item>
+        <item>tenerife-provincia</item>
+    </string-array>
+
+    <string-array name="Castilla_La_Mancha">
+        <item>Albacete</item>
+        <item>Ciudad Real</item>
+        <item>Cuenca</item>
+        <item>Guadalajara</item>
+        <item>Toledo</item>
+    </string-array>
+    <string-array name="castilla_la_mancha">
+        <item>albacete-provincia</item>
+        <item>ciudad-real-provincia</item>
+        <item>cuenca-provincia</item>
+        <item>guadalajara-provincia</item>
+        <item>toledo-provincia</item>
+    </string-array>
 </resources>
