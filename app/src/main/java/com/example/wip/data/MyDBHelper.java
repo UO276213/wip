@@ -23,6 +23,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public static final String COLUMNA_NOMBRE_FIESTA = "name_fiesta";
     public static final String COLUMNA_FECHA_FIESTA = "date_fiesta";
     public static final String COLUMNA_UBI_FIESTA = "ubi_fiesta";
+    public static final String COLUMNA_URL_UBI_FIESTA = "url_ubi_fiesta";
+    public static final String COLUMNA_DETAILS_FIESTA = "details_fiesta";
 
 
     /**
@@ -53,7 +55,9 @@ public class MyDBHelper extends SQLiteOpenHelper {
             COLUMNA_ID_FIESTAS + " " + "integer primary key, " +
             COLUMNA_NOMBRE_FIESTA + " text not null, " +
             COLUMNA_FECHA_FIESTA + " text," +
-            COLUMNA_UBI_FIESTA + " text" +
+            COLUMNA_UBI_FIESTA + " text," +
+            COLUMNA_URL_UBI_FIESTA + " text," +
+            COLUMNA_DETAILS_FIESTA + " text" +
             ");";
 
     /**
