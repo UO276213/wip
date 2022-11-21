@@ -13,5 +13,6 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_record">Memories</string>
+    <string name="no_details">No hay detalles de la fiesta seleccionada</string>
 
 </resources>

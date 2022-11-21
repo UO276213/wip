@@ -98,28 +98,31 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void getDetails() {
-        try {
-            //Conseguimos el HTML con la librería "Ion"
-            String url = "https://fiestas.net/" + urlDetails;
-            Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
-                @Override
-                public void onCompleted(Exception e, Response<String> result) {
-                    try {
-                        // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
-                        String resultado = result.getResult();
-                        details = ParserFiestas.ParseDetails(resultado);
-                        setDetails(details);
-                    } catch (Exception ex) {
-                        Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                        ex.printStackTrace();
+        if(urlDetails.equals(""))
+            setDetails(getResources().getString(R.string.no_details));
+        else
+            try {
+                //Conseguimos el HTML con la librería "Ion"
+                String url = "https://fiestas.net/" + urlDetails;
+                Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        try {
+                            // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
+                            String resultado = result.getResult();
+                            details = ParserFiestas.ParseDetails(resultado);
+                            setDetails(details);
+                        } catch (Exception ex) {
+                            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
+                            ex.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
 
-        } catch (Exception e) {
-            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
+            } catch (Exception e) {
+                Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
     }
 
     private void setDetails(String details) {

@@ -96,15 +96,15 @@ public class ListaFiestasAdapter extends RecyclerView.Adapter<ListaFiestasAdapte
                 });
             }
             if(!fiesta.getDetails().equals("")) {
-                name.setText(UnderLine.underLine(fiesta.getName()));
                 name.setTextColor(Color.parseColor("#0000FF"));
+            }
+                name.setText(UnderLine.underLine(fiesta.getName()));
                 name.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         listenerDetails.onItemClick(fiesta);
                     }
                 });
-            }
         }
 
     }
