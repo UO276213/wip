@@ -1,5 +1,7 @@
 package com.example.wip.layouts;
 
+import static com.example.wip.layouts.ListaFragments.FIESTA_SELECCIONADA;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -49,6 +53,17 @@ public class MapsFragment extends Fragment implements
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
+            mMap.setOnMarkerClickListener(marker -> {
+
+                Fiesta fiesta = (Fiesta) marker.getTag();
+
+                Intent itent = new Intent(getContext(), DetailsActivity.class);
+                itent.putExtra(ARG_FIESTAS, fiesta.getDetails());
+                itent.putExtra(FIESTA_SELECCIONADA, fiesta);
+                startActivity(itent);
+
+                return false;
+            });
 
             // Intentamos localizar al usuario
             enableMyLocation();
@@ -94,8 +109,12 @@ public class MapsFragment extends Fragment implements
                 if (!fiestaAddress.isEmpty()) {
                     LatLng coords = new LatLng(fiestaAddress.get(0).getLatitude(), fiestaAddress.get(0).getLongitude());
 
-                    mMap.addMarker(new MarkerOptions().position(coords).title(fiesta.getName())
+
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(coords).title(fiesta.getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.party_marker_icon)));
+
+                    marker.setTag(fiesta);
+
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
                 }
             }
