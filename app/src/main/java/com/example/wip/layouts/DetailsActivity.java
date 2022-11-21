@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -65,7 +66,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-
         FiestasDataSource fds= new FiestasDataSource(getApplicationContext());
         fds.open();
 
@@ -74,6 +74,8 @@ public class DetailsActivity extends AppCompatActivity {
         isFavorite = filteredValorations.size() != 0;
 
         isFavorite();
+
+        ((TextView) findViewById(R.id.details)).setMovementMethod(new ScrollingMovementMethod());
 
     }
 
@@ -132,7 +134,14 @@ public class DetailsActivity extends AppCompatActivity {
             loadSavedImages();
             btnAddImage = findViewById(R.id.btnAddImage);
             btnAddImage.setOnClickListener(view ->{
-                showUploadView();});
+                // Comprobamos si tenemos permiso para acceder a la galeria
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Si no tenemos permiso, lo solicitamos
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_GALLERY_PERMISSION_REQUEST_CODE);
+                } else {
+                    // Si tenemos permiso, continuamos
+                    showUploadView();
+                }});
 
             findViewById(R.id.recyclerView).setVisibility(View.VISIBLE);
             btnAddImage.setVisibility(View.VISIBLE);
