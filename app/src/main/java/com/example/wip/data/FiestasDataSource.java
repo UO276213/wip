@@ -89,9 +89,9 @@ public class  FiestasDataSource {
      *
      * @return Lista de objetos de tipo Pelicula
      */
-    public List<Fiesta> getAllValorations() {
+    public ArrayList<Fiesta> getAllValorations() {
         // Lista que almacenara el resultado
-        List<Fiesta> partyList = new ArrayList<Fiesta>();
+        ArrayList<Fiesta> partyList = new ArrayList<Fiesta>();
         //hacemos una query porque queremos devolver un cursor
 
         Cursor cursor = database.query(MyDBHelper.TABLA_FIESTAS, allColumns,
@@ -125,9 +125,9 @@ public class  FiestasDataSource {
      *
      * @return Lista de objetos de tipo Fiesta
      */
-   public List<Fiesta> getFilteredValorations(String nombreFiesta) {
+   public ArrayList<Fiesta> getFilteredValorations(String nombreFiesta) {
         // Lista que almacenara el resultado
-        List<Fiesta> partyList = new ArrayList<>();
+        ArrayList<Fiesta> partyList = new ArrayList<>();
         //hacemos una query porque queremos devolver un cursor
 
         Cursor cursor = database.rawQuery("Select * " +

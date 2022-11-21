@@ -22,6 +22,7 @@ import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.adapters.ListaFiestasAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListaFragments extends Fragment {
 
