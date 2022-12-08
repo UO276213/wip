@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class  FiestasDataSource {
+public class FiestasDataSource {
 
     /**
      * Referencia para manejar la base de datos. Este objeto lo obtenemos a partir de MyDBHelper
@@ -28,8 +28,7 @@ public class  FiestasDataSource {
     /**
      * Columnas de la tabla
      */
-    private final String[] allColumns = {MyDBHelper.COLUMNA_ID_FIESTAS, MyDBHelper.COLUMNA_NOMBRE_FIESTA,
-            MyDBHelper.COLUMNA_FECHA_FIESTA, MyDBHelper.COLUMNA_UBI_FIESTA, MyDBHelper.COLUMNA_URL_UBI_FIESTA, MyDBHelper.COLUMNA_DETAILS_FIESTA};
+    private final String[] allColumns = {MyDBHelper.COLUMNA_ID_FIESTAS, MyDBHelper.COLUMNA_NOMBRE_FIESTA, MyDBHelper.COLUMNA_FECHA_FIESTA, MyDBHelper.COLUMNA_UBI_FIESTA, MyDBHelper.COLUMNA_URL_UBI_FIESTA, MyDBHelper.COLUMNA_DETAILS_FIESTA, MyDBHelper.COLUMNA_IMG_FAV};
 
     /**
      * Constructor.
@@ -62,6 +61,7 @@ public class  FiestasDataSource {
 
     /**
      * Recibe la película y crea el registro en la base de datos.
+     *
      * @param partyToInsert
      * @return
      */
@@ -76,12 +76,12 @@ public class  FiestasDataSource {
         values.put(MyDBHelper.COLUMNA_UBI_FIESTA, partyToInsert.getPlace());
         values.put(MyDBHelper.COLUMNA_URL_UBI_FIESTA, partyToInsert.getTownURL());
         values.put(MyDBHelper.COLUMNA_DETAILS_FIESTA, partyToInsert.getDetails());
+        values.put(MyDBHelper.COLUMNA_IMG_FAV, partyToInsert.isFavorite() ? "FAVORITA" : "NO FAVORITA");
 
         // Insertamos la valoracion
-        long insertId =
-                database.insert(MyDBHelper.TABLA_FIESTAS, null, values);
+        long insertId = database.insert(MyDBHelper.TABLA_FIESTAS, null, values);
 
-        return insertId;
+        return id;
     }
 
     /**
@@ -91,11 +91,10 @@ public class  FiestasDataSource {
      */
     public ArrayList<Fiesta> getAllValorations() {
         // Lista que almacenara el resultado
-        ArrayList<Fiesta> partyList = new ArrayList<Fiesta>();
+        ArrayList<Fiesta> partyList = new ArrayList<>();
         //hacemos una query porque queremos devolver un cursor
 
-        Cursor cursor = database.query(MyDBHelper.TABLA_FIESTAS, allColumns,
-                null, null, null, null, null);
+        Cursor cursor = database.query(MyDBHelper.TABLA_FIESTAS, allColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -107,6 +106,7 @@ public class  FiestasDataSource {
             fiesta.setPlace(cursor.getString(3));
             fiesta.setTownURL(cursor.getString(4));
             fiesta.setDetails(cursor.getString(5));
+            fiesta.setFavorite(cursor.getString(6).equals("FAVORITA"));
 
             partyList.add(fiesta);
             cursor.moveToNext();
@@ -125,14 +125,12 @@ public class  FiestasDataSource {
      *
      * @return Lista de objetos de tipo Fiesta
      */
-   public ArrayList<Fiesta> getFilteredValorations(String nombreFiesta) {
+    public ArrayList<Fiesta> getFilteredValorations(String nombreFiesta) {
         // Lista que almacenara el resultado
         ArrayList<Fiesta> partyList = new ArrayList<>();
         //hacemos una query porque queremos devolver un cursor
 
-        Cursor cursor = database.rawQuery("Select * " +
-                " FROM " + MyDBHelper.TABLA_FIESTAS +
-                " WHERE " + MyDBHelper.TABLA_FIESTAS + "." + MyDBHelper.COLUMNA_NOMBRE_FIESTA + " = \"" + nombreFiesta + "\"", null);
+        Cursor cursor = database.rawQuery("Select * " + " FROM " + MyDBHelper.TABLA_FIESTAS + " WHERE " + MyDBHelper.TABLA_FIESTAS + "." + MyDBHelper.COLUMNA_NOMBRE_FIESTA + " = \"" + nombreFiesta + "\"", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -144,6 +142,7 @@ public class  FiestasDataSource {
             fiesta.setPlace(cursor.getString(3));
             fiesta.setTownURL(cursor.getString(4));
             fiesta.setDetails(cursor.getString(5));
+            fiesta.setFavorite(cursor.getString(6).equals("FAVORITA"));
 
             partyList.add(fiesta);
             cursor.moveToNext();

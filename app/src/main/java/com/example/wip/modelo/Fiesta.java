@@ -17,37 +17,25 @@ public class Fiesta implements Parcelable {
         this.id = id;
     }
 
-    private String name="";
-    private String date="";
-    private String place="";
-    private String details="";
-    private String townURL="";
-
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
-    }
-
+    private String name = "";
+    private String date = "";
+    private String place = "";
+    private String details = "";
+    private String townURL = "";
     private boolean isFavorite;
 
     protected Fiesta(Parcel in) {
         name = in.readString();
         date = in.readString();
         place = in.readString();
-        details= in.readString();
-        townURL= in.readString();
-        id=in.readInt();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            isFavorite = in.readBoolean();
-        }
+        details = in.readString();
+        townURL = in.readString();
+        id = in.readInt();
+        isFavorite = in.readBoolean();
     }
 
     public Fiesta() {
     }
-
 
 
     @Override
@@ -103,9 +91,11 @@ public class Fiesta implements Parcelable {
     public void setPlace(String place) {
         this.place = place;
     }
+
     public String getDetails() {
         return details;
     }
+
     public void setDetails(String details) {
         this.details = details;
     }
@@ -118,9 +108,17 @@ public class Fiesta implements Parcelable {
         this.townURL = townURL;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return place+"\n\t"+name+"\n\t\t"+date+"\n"+id+"\n\t\t";
+        return place + "\n\t" + name + "\n\t\t" + date + "\n" + id + "\n\t\t";
     }
 }

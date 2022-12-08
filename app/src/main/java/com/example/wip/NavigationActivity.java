@@ -42,9 +42,6 @@ public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
-    public static final String FIESTAS = "fiestas";
-    private String lugar = "asturias";//cambiar esto en un futuro
-    public static ArrayList<Fiesta> fiestas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +81,5 @@ public class NavigationActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-
 
 }

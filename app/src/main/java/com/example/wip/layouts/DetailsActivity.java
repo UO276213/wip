@@ -15,9 +15,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,13 +28,10 @@ import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
 import com.example.wip.utils.adapters.ImageAdapter;
 import com.google.android.material.snackbar.Snackbar;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -45,42 +41,39 @@ public class DetailsActivity extends AppCompatActivity {
     private String urlDetails;
     private String details;
     private boolean isFavorite;
-    private ImageButton btnFavorite;
+    ImageView btnFavorite;
     private Fiesta fiesta;
-    private ImageButton btnAddImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        Intent intent = getIntent();
-        urlDetails=intent.getStringExtra(ListaFragments.ARG_FIESTAS);
-        getDetails();
-        fiesta= intent.getParcelableExtra(ListaFragments.FIESTA_SELECCIONADA);
-        Log.d("FIESTA", fiesta.toString());
-        btnFavorite = findViewById(R.id.btnFav);
-        btnFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeItFav();
-            }
-        });
-
-        FiestasDataSource fds= new FiestasDataSource(getApplicationContext());
-        fds.open();
-
-        List<Fiesta> filteredValorations = fds.getFilteredValorations(fiesta.getName());
-
-        isFavorite = filteredValorations.size() != 0;
-
-        isFavorite();
-
         ((TextView) findViewById(R.id.details)).setMovementMethod(new ScrollingMovementMethod());
 
+        btnFavorite = findViewById(R.id.btnFav);
+        btnFavorite.setOnClickListener(view -> toggleFav());
+
+        Intent intent = getIntent();
+        urlDetails = intent.getStringExtra(ListaFragments.ARG_FIESTAS);
+        getDetails();
+        fiesta = intent.getParcelableExtra(ListaFragments.FIESTA_SELECCIONADA);
+
+        FiestasDataSource fds = new FiestasDataSource(getApplicationContext());
+        fds.open();
+
+        List<Fiesta> partiesSaved = fds.getFilteredValorations(fiesta.getName());
+        fds.close();
+
+        isFavorite = partiesSaved.size() != 0;
+        if (isFavorite) fiesta.setId(partiesSaved.get(0).getId());
+
+        updateFavIcon();
+        if (isFavorite)
+            loadImagesAndEnableUploadImg();
     }
 
-    private void loadSavedImages(){
-        UploadedImagesDataSource dataSource= new UploadedImagesDataSource(getApplicationContext());
+    private void loadSavedImages() {
+        UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
         dataSource.open();
 
         List<String> uploadedImages = dataSource.getFilteredValorations(fiesta.getId());
@@ -98,78 +91,78 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void getDetails() {
-        if(urlDetails.equals(""))
-            setDetails(getResources().getString(R.string.no_details));
-        else
-            try {
-                //Conseguimos el HTML con la librería "Ion"
-                String url = "https://fiestas.net/" + urlDetails;
-                Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        try {
-                            // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
-                            String resultado = result.getResult();
-                            details = ParserFiestas.ParseDetails(resultado);
-                            setDetails(details);
-                        } catch (Exception ex) {
-                            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                            ex.printStackTrace();
-                        }
-                    }
-                });
+        if (urlDetails.equals("")) setDetails(getResources().getString(R.string.no_details));
+        else try {
+            //Conseguimos el HTML con la librería "Ion"
+            String url = "https://fiestas.net/" + urlDetails;
+            Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback((e, result) -> {
+                try {
+                    // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
+                    String resultado = result.getResult();
+                    details = ParserFiestas.ParseDetails(resultado);
+                    setDetails(details);
+                } catch (Exception ex) {
+                    Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
+                    ex.printStackTrace();
+                }
+            });
 
-            } catch (Exception e) {
-                Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
     }
 
     private void setDetails(String details) {
-        TextView detailsView= findViewById(R.id.details);
+        TextView detailsView = findViewById(R.id.details);
         detailsView.setText(details);
     }
 
-    private void isFavorite(){
+    private void loadImagesAndEnableUploadImg() {
 
-        if (isFavorite){
-            btnFavorite.setImageDrawable((ContextCompat.getDrawable(this,R.drawable.ic_baseline_favorite_24)));
-            loadSavedImages();
-            btnAddImage = findViewById(R.id.btnAddImage);
-            btnAddImage.setOnClickListener(view ->{
-                // Comprobamos si tenemos permiso para acceder a la galeria
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    // Si no tenemos permiso, lo solicitamos
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_GALLERY_PERMISSION_REQUEST_CODE);
-                } else {
-                    // Si tenemos permiso, continuamos
-                    showUploadView();
-                }});
+        ImageView btnAddImage = findViewById(R.id.btnAddImage);
+        btnAddImage.setOnClickListener(view -> {
+            // Comprobamos si tenemos permiso para acceder a la galeria
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                // Si no tenemos permiso, lo solicitamos
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_GALLERY_PERMISSION_REQUEST_CODE);
+            } else {
+                // Si tenemos permiso, continuamos
+                showUploadView();
+            }
+        });
 
-            findViewById(R.id.recyclerView).setVisibility(View.VISIBLE);
-            btnAddImage.setVisibility(View.VISIBLE);
+        findViewById(R.id.recyclerView).setVisibility(View.VISIBLE);
+        btnAddImage.setVisibility(View.VISIBLE);
 
-        }else{
-            btnFavorite.setImageDrawable((ContextCompat.getDrawable(this,R.drawable.ic_baseline_favorite_border_24)));
-        }
+        loadSavedImages();
     }
 
-    private void makeItFav(){
-        FiestasDataSource fsd= new FiestasDataSource(getApplicationContext());
+    private void updateFavIcon() {
+        if (isFavorite)
+            btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)));
+        else
+            btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24)));
+
+    }
+
+    private void toggleFav() {
+        FiestasDataSource fsd = new FiestasDataSource(getApplicationContext());
         fsd.open();
-        if(!isFavorite){
-            isFavorite=true;
+        if (!isFavorite) {
             fiesta.setFavorite(true);
-            fsd.insertFiesta(fiesta);
-            Toast.makeText(this, "This is one of you favourite partys",Toast.LENGTH_LONG);
-        }else{
-            isFavorite=false;
+            fiesta.setId((int) fsd.insertFiesta(fiesta));
+            Toast.makeText(this, "This is one of you favourite partys", Toast.LENGTH_LONG);
+        } else {
             fiesta.setFavorite(false);
             fsd.deleteParty(fiesta.getName());
-            Toast.makeText(this, "Sorry you don´t have fun at this party",Toast.LENGTH_LONG);
+            Toast.makeText(this, "Sorry you don´t have fun at this party", Toast.LENGTH_LONG);
         }
         fsd.close();
-        isFavorite();
+        isFavorite = !isFavorite;
+        updateFavIcon();
+
+        loadImagesAndEnableUploadImg();
     }
 
     private void showUploadView() {
@@ -184,7 +177,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            UploadedImagesDataSource dataSource= new UploadedImagesDataSource(getApplicationContext());
+            UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
             dataSource.open();
 
             if (data.getClipData() != null) {
@@ -210,7 +203,6 @@ public class DetailsActivity extends AppCompatActivity {
 
                 // Si subimos algo, volvemos a cargar el recycler
                 loadSavedImages();
-
             }
         }
     }
