@@ -5,12 +5,14 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ import com.koushikdutta.ion.Response;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -51,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        ((TextView) findViewById(R.id.details)).setMovementMethod(new ScrollingMovementMethod());
+//        ((TextView) findViewById(R.id.details)).setMovementMethod(new ScrollingMovementMethod());
 
         btnFavorite = findViewById(R.id.btnFav);
         btnFavorite.setOnClickListener(view -> toggleFav());
@@ -149,11 +152,39 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         private void setDetails (String details){
-            TextView detailsView = findViewById(R.id.details);
-            detailsView.setText(details);
+            LinearLayout linearLayout=findViewById(R.id.linearLayout);
+            String[] detaillsDivided=details.split("\n");
+            int number=0;
+            for (String d:detaillsDivided) {
+                TextView tv = new TextView(this.getApplicationContext());
+                tv.setText(d);
+                tv=getTextViewType(tv,number);
+                linearLayout.addView(tv);
+                number++;
+            }
         }
 
-        private void loadImagesAndEnableUploadImg () {
+    private TextView getTextViewType(TextView tv, int number) {
+        String text= String.valueOf(tv.getText());
+        List<String> days=  Arrays.asList("lunes","martes","miércoles","jueves","viernes","sábado","domingo","del");
+        if(number==1){//titulo
+            tv.setTextSize(30);
+            tv.setTextColor(Color.parseColor("#FF5733"));}
+        else if(number==3){//proximas actividades
+            tv.setTextSize(20);
+            tv.setTextColor(Color.parseColor("#000000"));}
+        else if(!text.equals(""))//fechas u horas
+            if(Character.isDigit(text.charAt(0))||days.contains(text.split(",| ")[0])){
+                tv.setTextColor(Color.parseColor("#0000FF"));
+            }
+            else{
+                tv.setTextColor(Color.parseColor("#000000"));
+                tv.setTextSize(17);
+            }
+        return tv;
+    }
+
+    private void loadImagesAndEnableUploadImg () {
 
             ImageView btnAddImage = findViewById(R.id.btnAddImage);
             btnAddImage.setOnClickListener(view -> {

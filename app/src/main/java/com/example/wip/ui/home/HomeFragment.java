@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wip.NavigationActivity;
 import com.example.wip.R;
-import com.example.wip.databinding.FragmentHomeBinding;
 import com.example.wip.layouts.CalendarFragment;
 import com.example.wip.layouts.ListaFragments;
 import com.example.wip.layouts.MainActivity;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
 
     private static final String ARG_FIESTAS = "arg_fiestas";
     private RecyclerView recyclerView;
@@ -73,7 +71,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 
   /*  @Override
