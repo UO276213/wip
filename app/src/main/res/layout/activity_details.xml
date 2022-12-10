@@ -9,80 +9,81 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/imageDetails"
-        android:layout_width="397dp"
-        android:layout_height="277dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/details"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.516"/>
 
-    <ImageButton
-        android:id="@+id/btnFav"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_below="@+id/details"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="203dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="26dp"
-        android:layout_weight="100"
-        android:backgroundTint="#FFFFFF"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/details"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
-
-    <ImageButton
-        android:id="@+id/btnAddImage"
-        android:layout_width="70dp"
-        android:layout_height="43dp"
-        android:layout_below="@+id/details"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="12dp"
-        android:layout_weight="100"
-        android:backgroundTint="#FFFFFF"
-        android:minHeight="48dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/details"
-        app:srcCompat="@android:drawable/ic_menu_add" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="274dp"
-        android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fillViewport="true">
-    </LinearLayout>
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            app:iss_auto_cycle="true"
+            app:iss_corner_radius="20"
+            app:iss_delay="0"
+            app:iss_error_image="@color/purple_700"
+            app:iss_period="3000"
+            app:iss_placeholder="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="398dp"
-        android:layout_height="239dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-</androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        <ImageButton
+            android:id="@+id/btnFav"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="100"
+            android:backgroundTint="#FFFFFF"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/slider"
+            app:layout_constraintEnd_toEndOf="@+id/slider"
+            app:layout_constraintTop_toTopOf="@+id/slider"
+            app:layout_constraintVertical_bias="0.956"
+            app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+
+
+        <ImageButton
+            android:id="@+id/btnAddImage"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="100"
+            android:backgroundTint="#FFFFFF"
+            android:minHeight="48dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20dp"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/slider" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="239dp"
+            android:layout_margin="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

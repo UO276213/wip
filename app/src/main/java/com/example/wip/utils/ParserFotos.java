@@ -1,10 +1,16 @@
 package com.example.wip.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParserFotos {
 
-    public static String getURLSearchImage(String resultado) {
-        String returned = resultado.split(",\\[\"https://www.")[1].split("\"")[0];
-        return "https://www."+returned;
+    public static List<String> getURLSearchImage(String resultado) {
+        List<String> urls = new ArrayList<>();
+        for (int i = 1; i < 5; i++){
+            urls.add("https://www." + resultado.split(",\\[\"https://www.")[i].split("\"")[0]);
+        }
+        return urls;
     }
 
 }

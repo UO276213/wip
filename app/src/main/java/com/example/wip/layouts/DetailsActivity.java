@@ -21,6 +21,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.wip.ImageDetailsActivity;
 import com.example.wip.R;
 import com.example.wip.data.FiestasDataSource;
@@ -31,11 +34,12 @@ import com.example.wip.utils.ParserFiestas;
 import com.example.wip.utils.ParserFotos;
 import com.example.wip.utils.adapters.ImageAdapter;
 import com.google.android.material.snackbar.Snackbar;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,44 +87,42 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void loadImageGoogle() {
-        ImageView image = findViewById(R.id.imageDetails);
+//        ImageView image = findViewById(R.id.imageDetails);
         try {
             String url = "https://www.google.com/search?q=fiesta " + fiesta.getPlace() + " " + fiesta.getName() + "&tbm=isch";//&tbm=isch busca imagenes
             url = url.replace(" ", "%20");
             //Conseguimos el HTML con la librería "Ion"
             String finalUrl = url;
-            Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
-                @Override
-                public void onCompleted(Exception e, Response<String> result) {
-                    try {
-                        // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
-                        String resultado = result.getResult();
-                        String imageURL = ParserFotos.getURLSearchImage(resultado);
-                        Picasso.get().load(imageURL).into(image);
+            Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback((e, result) -> {
+                // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
+                String resultado = result.getResult();
+                List<String> urls = ParserFotos.getURLSearchImage(resultado);
 
+                ImageSlider slider = findViewById(R.id.slider);
+                List<SlideModel> slideModels = new ArrayList<>();
 
-                        } catch(Exception ex){
-                            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-            } catch(Exception e){
-                Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
+                for (String urlImage : urls)
+                    slideModels.add(new SlideModel(urlImage, ScaleTypes.CENTER_CROP));
 
+                slider.setImageList(slideModels);
+
+            });
+        } catch (Exception e) {
+            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
+            e.printStackTrace();
         }
 
-        private void loadSavedImages () {
-            UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
-            dataSource.open();
+    }
 
-            List<ImagePartyRecord> uploadedImages = dataSource.getFiltredUploadedPartyImages(fiesta.getId());
+    private void loadSavedImages() {
+        UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
+        dataSource.open();
 
-            RecyclerView recyclerView = findViewById(R.id.recyclerView);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
+        List<ImagePartyRecord> uploadedImages = dataSource.getFiltredUploadedPartyImages(fiesta.getId());
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
 
             ImageAdapter adapter = new ImageAdapter(uploadedImages, imagePartyRecord -> {
                 Intent i = new Intent(getApplicationContext(), ImageDetailsActivity.class);
@@ -130,56 +132,50 @@ public class DetailsActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
         }
 
-        private void getDetails () {
-            if (urlDetails.equals("")) setDetails(getResources().getString(R.string.no_details));
-            else try {
-                //Conseguimos el HTML con la librería "Ion"
-                String url = "https://fiestas.net/" + urlDetails;
-                Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback((e, result) -> {
-                    try {
-                        // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
-                        String resultado = result.getResult();
-                        details = ParserFiestas.ParseDetails(resultado);
-                        setDetails(details);
-                    } catch (Exception ex) {
-                        Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                        ex.printStackTrace();
-                    }
-                });
+    private void getDetails() {
+        if (urlDetails.equals("")) setDetails(getResources().getString(R.string.no_details));
+        else try {
+            //Conseguimos el HTML con la librería "Ion"
+            String url = "https://fiestas.net/" + urlDetails;
+            Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback((e, result) -> {
+                // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
+                String resultado = result.getResult();
+                details = ParserFiestas.ParseDetails(resultado);
+                setDetails(details);
+            });
 
-            } catch (Exception e) {
-                Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
+            e.printStackTrace();
         }
+    }
 
-        private void setDetails (String details){
-            LinearLayout linearLayout=findViewById(R.id.linearLayout);
-            String[] detaillsDivided=details.split("\n");
-            int number=0;
-            for (String d:detaillsDivided) {
-                TextView tv = new TextView(this.getApplicationContext());
-                tv.setText(d);
-                tv=getTextViewType(tv,number);
-                linearLayout.addView(tv);
-                number++;
-            }
+    private void setDetails(String details) {
+        LinearLayout linearLayout = findViewById(R.id.linearLayout);
+        String[] detaillsDivided = details.split("\n");
+        int number = 0;
+        for (String d : detaillsDivided) {
+            TextView tv = new TextView(this.getApplicationContext());
+            tv.setText(d);
+            tv = getTextViewType(tv, number);
+            linearLayout.addView(tv);
+            number++;
         }
+    }
 
     private TextView getTextViewType(TextView tv, int number) {
-        String text= String.valueOf(tv.getText());
-        List<String> days=  Arrays.asList("lunes","martes","miércoles","jueves","viernes","sábado","domingo","del");
-        if(number==1){//titulo
+        String text = String.valueOf(tv.getText());
+        List<String> days = Arrays.asList("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo", "del");
+        if (number == 1) {//titulo
             tv.setTextSize(30);
-            tv.setTextColor(Color.parseColor("#FF5733"));}
-        else if(number==3){//proximas actividades
+            tv.setTextColor(Color.parseColor("#FF5733"));
+        } else if (number == 3) {//proximas actividades
             tv.setTextSize(20);
-            tv.setTextColor(Color.parseColor("#000000"));}
-        else if(!text.equals(""))//fechas u horas
-            if(Character.isDigit(text.charAt(0))||days.contains(text.split(",| ")[0])){
+            tv.setTextColor(Color.parseColor("#000000"));
+        } else if (!text.equals(""))//fechas u horas
+            if (Character.isDigit(text.charAt(0)) || days.contains(text.split(",| ")[0])) {
                 tv.setTextColor(Color.parseColor("#0000FF"));
-            }
-            else{
+            } else {
                 tv.setTextColor(Color.parseColor("#000000"));
                 tv.setTextSize(17);
             }
@@ -188,105 +184,105 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void enableUploadImg() {
 
-            ImageView btnAddImage = findViewById(R.id.btnAddImage);
-            btnAddImage.setOnClickListener(view -> {
-                // Comprobamos si tenemos permiso para acceder a la galeria
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    // Si no tenemos permiso, lo solicitamos
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_GALLERY_PERMISSION_REQUEST_CODE);
-                } else {
-                    // Si tenemos permiso, continuamos
-                    showUploadView();
-                }
-            });
-
-            findViewById(R.id.recyclerView).setVisibility(View.VISIBLE);
-            btnAddImage.setVisibility(View.VISIBLE);
-        }
-
-        private void updateFavIcon () {
-            if (isFavorite)
-                btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)));
-            else
-                btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24)));
-
-        }
-
-        private void toggleFav () {
-            FiestasDataSource fsd = new FiestasDataSource(getApplicationContext());
-            fsd.open();
-            if (!isFavorite) {
-                fiesta.setFavorite(true);
-                fiesta.setId((int) fsd.insertFiesta(fiesta));
-                Toast.makeText(this, "This is one of you favourite partys", Toast.LENGTH_LONG);
+        ImageView btnAddImage = findViewById(R.id.btnAddImage);
+        btnAddImage.setOnClickListener(view -> {
+            // Comprobamos si tenemos permiso para acceder a la galeria
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                // Si no tenemos permiso, lo solicitamos
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_GALLERY_PERMISSION_REQUEST_CODE);
             } else {
-                fiesta.setFavorite(false);
-                fsd.deleteParty(fiesta.getName());
-                Toast.makeText(this, "Sorry you don´t have fun at this party", Toast.LENGTH_LONG);
+                // Si tenemos permiso, continuamos
+                showUploadView();
             }
-            fsd.close();
-            isFavorite = !isFavorite;
-            updateFavIcon();
+        });
 
-            enableUploadImg();
+        findViewById(R.id.recyclerView).setVisibility(View.VISIBLE);
+        btnAddImage.setVisibility(View.VISIBLE);
+    }
+
+    private void updateFavIcon() {
+        if (isFavorite)
+            btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)));
+        else
+            btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24)));
+
+    }
+
+    private void toggleFav() {
+        FiestasDataSource fsd = new FiestasDataSource(getApplicationContext());
+        fsd.open();
+        if (!isFavorite) {
+            fiesta.setFavorite(true);
+            fiesta.setId((int) fsd.insertFiesta(fiesta));
+            Toast.makeText(this, "This is one of you favourite partys", Toast.LENGTH_LONG);
+        } else {
+            fiesta.setFavorite(false);
+            fsd.deleteParty(fiesta.getName());
+            Toast.makeText(this, "Sorry you don´t have fun at this party", Toast.LENGTH_LONG);
         }
+        fsd.close();
+        isFavorite = !isFavorite;
+        updateFavIcon();
 
-        private void showUploadView () {
-            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            startActivityForResult(intent, RESULT_LOAD_IMAGE);
-        }
+        enableUploadImg();
+    }
 
-        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
-            super.onActivityResult(requestCode, resultCode, data);
+    private void showUploadView() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(intent, RESULT_LOAD_IMAGE);
+    }
 
-            if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
-                dataSource.open();
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
-                if (data.getClipData() != null) {
-                    ClipData mClipData = data.getClipData();
-                    List<String> imagesPaths = new ArrayList<>();
-                    for (int i = 0; i < mClipData.getItemCount(); i++) {
-                        ClipData.Item item = mClipData.getItemAt(i);
-                        Uri uri = item.getUri();
-                        // Get the cursor
-                        Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
-                        // Move to first row
-                        cursor.moveToFirst();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
+            dataSource.open();
 
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            if (data.getClipData() != null) {
+                ClipData mClipData = data.getClipData();
+                List<String> imagesPaths = new ArrayList<>();
+                for (int i = 0; i < mClipData.getItemCount(); i++) {
+                    ClipData.Item item = mClipData.getItemAt(i);
+                    Uri uri = item.getUri();
+                    // Get the cursor
+                    Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+                    // Move to first row
+                    cursor.moveToFirst();
 
-                        String picturePath = cursor.getString(columnIndex);
-                        cursor.close();
-                        imagesPaths.add(picturePath);
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    imagesPaths.add(picturePath);
 
 
-                        dataSource.insertImage(picturePath, fiesta.getId());
-                    }
-
-                    // Si subimos algo, volvemos a cargar el recycler
-                    loadSavedImages();
+                    dataSource.insertImage(picturePath, fiesta.getId());
                 }
+
+                // Si subimos algo, volvemos a cargar el recycler
+                loadSavedImages();
             }
         }
+    }
 
-        @Override
-        public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
-        @NonNull int[] grantResults){
-            if (requestCode != READ_GALLERY_PERMISSION_REQUEST_CODE) {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                return;
-            }
-
-            //  Recorremos los permisos para comprobar si tenemos perimiso para acceder a la galeria
-            for (int i = 0; i < permissions.length; i++) {
-                if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE) && grantResults[i] == PackageManager.PERMISSION_GRANTED)
-                    showUploadView();
-            }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode != READ_GALLERY_PERMISSION_REQUEST_CODE) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            return;
         }
+
+        //  Recorremos los permisos para comprobar si tenemos perimiso para acceder a la galeria
+        for (int i = 0; i < permissions.length; i++) {
+            if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE) && grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                showUploadView();
+        }
+    }
 
     @Override
     protected void onPostResume() {

@@ -51,4 +51,7 @@ dependencies {
     implementation  'com.github.sundeepk:compact-calendar-view:3.0.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // Libreria para hacer el carrusel de fotos
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
 }
