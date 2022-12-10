@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.wip.R;
+import com.example.wip.data.records.ImagePartyRecord;
 
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
 
-    private List<String> imagesPaths;
+    private List<ImagePartyRecord> imagesPartiesRecords;
     private final OnItemClickListener listener;
 
-    public ImageAdapter(List<String> imagesPaths, OnItemClickListener listener) {
-        this.imagesPaths = imagesPaths;
+    public ImageAdapter(List<ImagePartyRecord> imagesPartiesRecords, OnItemClickListener listener) {
+        this.imagesPartiesRecords = imagesPartiesRecords;
         this.listener = listener;
     }
 
@@ -34,16 +35,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ImagesViewHolder holder, int position) {
-        holder.bindUser(imagesPaths.get(position), listener);
+        holder.bindUser(imagesPartiesRecords.get(position), listener);
     }
 
     @Override
     public int getItemCount() {
-        return imagesPaths.size();
+        return imagesPartiesRecords.size();
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String imagePath, ImageView imageView);
+        void onItemClick(ImagePartyRecord imagePartyRecord);
     }
 
     protected class ImagesViewHolder extends RecyclerView.ViewHolder {
@@ -55,7 +56,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             imageView = itemView.findViewById(R.id.grid_item_image);
         }
 
-        public void bindUser(final String imagePath, OnItemClickListener listener) {
+        public void bindUser(final ImagePartyRecord imagePartyRecord, OnItemClickListener listener) {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             // evita la asignación de memoria,
@@ -63,17 +64,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             options.inJustDecodeBounds = true;
 
             // Asigna ciertos valores a options
-            BitmapFactory.decodeFile(imagePath, options);
+            BitmapFactory.decodeFile(imagePartyRecord.getImagePath(), options);
 
             // TODO Obtner el tamño del imageView
 
             options.inSampleSize = calculateInSampleSize(options, 200, 200);
 
             options.inJustDecodeBounds = false;
-            Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
+            Bitmap bmp = BitmapFactory.decodeFile(imagePartyRecord.getImagePath(), options);
 
             imageView.setImageBitmap(bmp);
-            imageView.setOnClickListener(view -> listener.onItemClick(imagePath, imageView));
+            imageView.setOnClickListener(view -> listener.onItemClick(imagePartyRecord));
         }
 
         /*

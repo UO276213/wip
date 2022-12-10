@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.wip.data.records.ImagePartyRecord;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -81,13 +83,11 @@ public class UploadedImagesDataSource {
     }
 
     /**
-     * Obtiene todas las valoraciones añdadidas por los usuarios.
-     *
-     * @return L
+     * Devuelve toda la tabla IMAGENES_SUBIDAS.
      */
-    public List<String> getAllValorations() {
+    public List<ImagePartyRecord> getAllUploadedPartyImages() {
         // Lista que almacenara el resultado
-        List<String> images = new ArrayList<>();
+        List<ImagePartyRecord> images = new ArrayList<>();
         //hacemos una query porque queremos devolver un cursor
 
         Cursor cursor = database.query(MyDBHelper.TABLA_IMAGENES_SUBIDAS, allColumns,
@@ -95,7 +95,10 @@ public class UploadedImagesDataSource {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            images.add(cursor.getString(1));
+            int id = cursor.getInt(0);
+            int idParty = cursor.getInt(1);
+            String imagePath = cursor.getString(2);
+            images.add(new ImagePartyRecord(id, imagePath, idParty));
             cursor.moveToNext();
         }
 
@@ -106,18 +109,25 @@ public class UploadedImagesDataSource {
         return images;
     }
 
-    public List<String> getFilteredValorations(int idImagen) {
+    /**
+     * Devuelve lass filas que cumplan en filtro de IMAGENES_SUBIDAS.
+     */
+    public List<ImagePartyRecord> getFiltredUploadedPartyImages(int idImagen) {
         // Lista que almacenara el resultado
-        List<String> resultado = new ArrayList<>();
+        List<ImagePartyRecord> images = new ArrayList<>();
         //hacemos una query porque queremos devolver un cursor
 
         Cursor cursor = database.rawQuery("Select * " +
                 " FROM " + MyDBHelper.TABLA_IMAGENES_SUBIDAS +
-                " WHERE " + MyDBHelper.TABLA_IMAGENES_SUBIDAS + "." + MyDBHelper.COLUMNA_ID_PARTY + " = " + idImagen + ";", null);
+                " WHERE " + MyDBHelper.TABLA_IMAGENES_SUBIDAS + "." + MyDBHelper.COLUMNA_ID_PARTY +
+                " = " + idImagen + ";", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            resultado.add(cursor.getString(2));
+            int id = cursor.getInt(0);
+            int idParty = cursor.getInt(1);
+            String imagePath = cursor.getString(2);
+            images.add(new ImagePartyRecord(id, imagePath, idParty));
             cursor.moveToNext();
         }
 
@@ -125,12 +135,17 @@ public class UploadedImagesDataSource {
         // Una vez obtenidos todos los datos y cerrado el cursor, devolvemos la
         // lista.
 
-        return resultado;
+        return images;
     }
 
     public int deleteImage(String imagePath) {
         String[] argumentos = {imagePath};
         return database.delete(MyDBHelper.TABLA_IMAGENES_SUBIDAS, "image_path = ?", argumentos);
+    }
+
+    public int deleteImageParty(int id){
+        String[] argumentos = {String.valueOf(id)};
+        return database.delete(MyDBHelper.TABLA_IMAGENES_SUBIDAS, "id_imagen = ?", argumentos);
     }
 
 }

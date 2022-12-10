@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +25,7 @@ import com.example.wip.ImageDetailsActivity;
 import com.example.wip.R;
 import com.example.wip.data.FiestasDataSource;
 import com.example.wip.data.UploadedImagesDataSource;
+import com.example.wip.data.records.ImagePartyRecord;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
 import com.example.wip.utils.ParserFotos;
@@ -42,6 +42,7 @@ import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
+    public static final String EXTRA_PARTY_IMAGE_RECORD = "extra_party_image_record";
     private static final int READ_GALLERY_PERMISSION_REQUEST_CODE = 1;
     private static int RESULT_LOAD_IMAGE = 1;
     ImageView btnFavorite;
@@ -74,8 +75,9 @@ public class DetailsActivity extends AppCompatActivity {
         if (isFavorite) fiesta.setId(partiesSaved.get(0).getId());
 
         updateFavIcon();
+
         if (isFavorite)
-            loadImagesAndEnableUploadImg();
+            enableUploadImg();
 
         loadImageGoogle();
     }
@@ -114,15 +116,15 @@ public class DetailsActivity extends AppCompatActivity {
             UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
             dataSource.open();
 
-            List<String> uploadedImages = dataSource.getFilteredValorations(fiesta.getId());
+            List<ImagePartyRecord> uploadedImages = dataSource.getFiltredUploadedPartyImages(fiesta.getId());
 
             RecyclerView recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
 
-            ImageAdapter adapter = new ImageAdapter(uploadedImages, (imagePath, imageView) -> {
+            ImageAdapter adapter = new ImageAdapter(uploadedImages, imagePartyRecord -> {
                 Intent i = new Intent(getApplicationContext(), ImageDetailsActivity.class);
-                i.putExtra("imagePath", imagePath);
+                i.putExtra(EXTRA_PARTY_IMAGE_RECORD, imagePartyRecord);
                 startActivity(i);
             });
             recyclerView.setAdapter(adapter);
@@ -184,7 +186,7 @@ public class DetailsActivity extends AppCompatActivity {
         return tv;
     }
 
-    private void loadImagesAndEnableUploadImg () {
+    private void enableUploadImg() {
 
             ImageView btnAddImage = findViewById(R.id.btnAddImage);
             btnAddImage.setOnClickListener(view -> {
@@ -200,8 +202,6 @@ public class DetailsActivity extends AppCompatActivity {
 
             findViewById(R.id.recyclerView).setVisibility(View.VISIBLE);
             btnAddImage.setVisibility(View.VISIBLE);
-
-            loadSavedImages();
         }
 
         private void updateFavIcon () {
@@ -228,7 +228,7 @@ public class DetailsActivity extends AppCompatActivity {
             isFavorite = !isFavorite;
             updateFavIcon();
 
-            loadImagesAndEnableUploadImg();
+            enableUploadImg();
         }
 
         private void showUploadView () {
@@ -287,4 +287,13 @@ public class DetailsActivity extends AppCompatActivity {
                     showUploadView();
             }
         }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        // Si la fiesta es de las favoritas, cargamos las imágenes asociadas
+        if (isFavorite)
+            loadSavedImages();
     }
+}

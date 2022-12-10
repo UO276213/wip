@@ -50,9 +50,11 @@ public class ListaFragments extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
-        }
+//        if (getArguments() != null) {
+//            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+//        }
+        fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+
     }
 
     @Override
