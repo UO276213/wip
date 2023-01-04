@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.wip.BuildConfig;
 import com.example.wip.ImageDetailsActivity;
 import com.example.wip.R;
 import com.example.wip.data.FiestasDataSource;
@@ -31,15 +33,14 @@ import com.example.wip.data.UploadedImagesDataSource;
 import com.example.wip.data.records.ImagePartyRecord;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
-import com.example.wip.utils.ParserFotos;
 import com.example.wip.utils.adapters.ImageAdapter;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,35 +84,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (isFavorite)
             enableUploadImg();
 
-        loadImageGoogle();
-    }
-
-    private void loadImageGoogle() {
-//        ImageView image = findViewById(R.id.imageDetails);
-        try {
-            String url = "https://www.google.com/search?q=fiesta " + fiesta.getPlace() + " " + fiesta.getName() + "&tbm=isch";//&tbm=isch busca imagenes
-            url = url.replace(" ", "%20");
-            //Conseguimos el HTML con la librería "Ion"
-            String finalUrl = url;
-            Ion.with(getApplicationContext()).load(url).asString().withResponse().setCallback((e, result) -> {
-                // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
-                String resultado = result.getResult();
-                List<String> urls = ParserFotos.getURLSearchImage(resultado);
-
-                ImageSlider slider = findViewById(R.id.slider);
-                List<SlideModel> slideModels = new ArrayList<>();
-
-                for (String urlImage : urls)
-                    slideModels.add(new SlideModel(urlImage, ScaleTypes.CENTER_CROP));
-
-                slider.setImageList(slideModels);
-
-            });
-        } catch (Exception e) {
-            Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-
+        loadImageGoogle(fiesta);
     }
 
     private void loadSavedImages() {
@@ -291,5 +264,35 @@ public class DetailsActivity extends AppCompatActivity {
         // Si la fiesta es de las favoritas, cargamos las imágenes asociadas
         if (isFavorite)
             loadSavedImages();
+    }
+
+    private void loadImageGoogle(Fiesta fiesta) {
+
+        String BASE_URL = "https://customsearch.googleapis.com/customsearch/v1?cx=b0098e7778c834105&num=5&searchType=image&key=" + BuildConfig.GOOGLE_SEARCH_API_KEY;
+        try {
+            String url = BASE_URL + "&q=fiesta+" + (fiesta.getPlace() + " " + fiesta.getName()).replace(" ", "+");
+            //Conseguimos el HTML con la librería "Ion"
+
+            Ion.with(getApplicationContext()).load(url).asJsonObject().withResponse().success(response -> {
+                // Una vez conseguido el html, lo parseamos para conseguir un array de fiestas
+                JsonObject resultado = response.getResult();
+                JsonArray items = resultado.get("items").getAsJsonArray();
+
+
+                ImageSlider slider = findViewById(R.id.slider);
+                List<SlideModel> slideModels = new ArrayList<>();
+                for (JsonElement item : items) {
+                    String link = item.getAsJsonObject().get("link").getAsString();
+                    Log.d("IMAGEURL", link);
+                    slideModels.add(new SlideModel(link, ScaleTypes.CENTER_CROP));
+                }
+
+                slider.setImageList(slideModels);
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

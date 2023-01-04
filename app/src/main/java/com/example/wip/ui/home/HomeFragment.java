@@ -2,21 +2,15 @@ package com.example.wip.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.layouts.CalendarFragment;
 import com.example.wip.layouts.ListaFragments;
@@ -24,7 +18,6 @@ import com.example.wip.layouts.MainActivity;
 import com.example.wip.layouts.MapsFragment;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
-import com.example.wip.utils.adapters.ListaFiestasAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,16 +42,15 @@ public class HomeFragment extends Fragment {
 
         BottomNavigationView nav = getActivity().findViewById(R.id.bottom_navigation2);
 
-        nav.setOnItemSelectedListener(onItemSelectedListener);}
+        nav.setOnItemSelectedListener(onItemSelectedListener);
+    }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        /*HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);*/
 
         //binding = FragmentHomeBinding.inflate(inflater, container, false);
         root = inflater.inflate(R.layout.activity_fragment, container, false);
-
 
 
         Intent intent = getActivity().getIntent();
@@ -104,7 +96,7 @@ public class HomeFragment extends Fragment {
     public void getData() {
         try {
             //Conseguimos el HTML con la librería "Ion"
-            String url = "https://fiestas.net/"+lugar + "/";
+            String url = "https://fiestas.net/" + lugar + "/";
             Ion.with(root.getContext()).load(url).asString().withResponse().setCallback(new FutureCallback<Response<String>>() {
                 @Override
                 public void onCompleted(Exception e, Response<String> result) {
@@ -144,7 +136,7 @@ public class HomeFragment extends Fragment {
     };
 
 
-    private void loadFragment(Fragment fragment){
+    private void loadFragment(Fragment fragment) {
 
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
