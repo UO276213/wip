@@ -31,7 +31,9 @@ public class Fiesta implements Parcelable {
         details = in.readString();
         townURL = in.readString();
         id = in.readInt();
-        isFavorite = in.readBoolean();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isFavorite = in.readBoolean();
+        }
     }
 
     public Fiesta() {
