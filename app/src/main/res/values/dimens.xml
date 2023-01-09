@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="titulo">20dp</dimen>
-    <dimen name="subtitulo">15dp</dimen>
+    <dimen name="titulo">25dp</dimen>
+    <dimen name="subtitulo">20dp</dimen>
+    <dimen name="fecha">15dp</dimen>
     <dimen name="espaciado">30dp</dimen>
     <dimen name="espaciadoGrande">100dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->

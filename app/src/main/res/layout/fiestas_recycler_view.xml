@@ -25,14 +25,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="85dp"
+                    android:layout_height="106dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:srcCompat="@tools:sample/avatars" />
@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="2dp"
                     android:layout_toRightOf="@id/imageView2"
@@ -59,19 +59,19 @@
 
                     <TextView
                         android:id="@+id/lugar_fiesta"
-                        android:layout_width="match_parent"
+                        android:layout_width="247dp"
                         android:layout_height="wrap_content"
                         android:text="Example"
-                        android:textSize="@dimen/titulo" />
+                        android:textSize="@dimen/subtitulo" />
 
 
                     <TextView
                         android:id="@+id/fecha_fiesta"
                         android:layout_width="match_parent"
-                        android:layout_height="24dp"
+                        android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/espaciado"
                         android:text="Example"
-                        android:textSize="@dimen/subtitulo" />
+                        android:textSize="@dimen/fecha" />
 
 
                 </LinearLayout>
