@@ -15,5 +15,6 @@
     <string name="menu_record">Memories</string>
     <string name="no_details">No hay detalles de la fiesta seleccionada</string>
     <string name="imagen_de_la_fiesta">Imagen de la fiesta</string>
+    <string name="no_province">Toda la comunidad</string>
 
 </resources>

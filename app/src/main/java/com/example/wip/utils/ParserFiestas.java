@@ -121,6 +121,6 @@ public class ParserFiestas {
             if(i!=1)
                 details+=splitted[i];
         }
-        return details.replaceAll("<[^>]+>", "").replaceAll("\\t", "").replaceAll("\n+","\n");
+        return details.replaceAll("<[^>]+>", "").replaceAll("\\t", "").replaceAll("\n+","\n").substring(1);
     }
 }
