@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wip.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.ParserFiestas;
+import com.example.wip.utils.adapters.ListaFiestasAdapter;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -96,6 +99,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void getEventsForEachMonth(int month){
+        compactCalendarView.removeAllEvents();
         for(Fiesta fiesta: fiestas){
             ArrayList<Integer> date = ParserFiestas.parserDate(fiesta.getDate());
             if(date!=null){
@@ -139,15 +143,13 @@ public class CalendarFragment extends Fragment {
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                Log.d("TAG", dateClicked.toString());
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
                 ArrayList<String> partys = new ArrayList<String>();
                 if(!events.isEmpty()){
                     for(Event e:events){
                         partys.add((String) e.getData());
                     }
-                    ArrayAdapter<String> adapter =
-                            new ArrayAdapter<String>(getContext(),
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                                     android.R.layout.simple_list_item_1, partys);
                     listEvents.setAdapter(adapter);
                 }
@@ -170,4 +172,5 @@ public class CalendarFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_calendar, container, false);
     }
+
 }
