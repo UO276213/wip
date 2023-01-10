@@ -78,7 +78,7 @@ public class CalendarFragment extends Fragment {
 
     private long getDateInMilis(int day, int month){
         Calendar calendar = Calendar.getInstance();
-        String toParse = day + "-" + (month+1) + "-2022"+ " " + "5:00";
+        String toParse = day + "-" + (month+1) + "-2023"+ " " + "5:00";
         // Results in "2-5-2012 20:43"
         SimpleDateFormat formatter = new SimpleDateFormat("d-M-yyyy hh:mm");
         // I assume dM, you may refer to Md for month-day instead.
@@ -94,6 +94,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void getEventsForEachMonth(int month){
+        compactCalendarView.removeAllEvents();
         for(Fiesta fiesta: fiestas){
             ArrayList<Integer> date = ParserFiestas.parserDate(fiesta.getDate());
             if(date!=null){

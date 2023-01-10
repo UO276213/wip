@@ -4,15 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".layouts.CalendarFragment">
+    tools:context=".layouts.CalendarFragment"
+    >
 
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
         android:layout_height="250dp"
+        android:background="#B3A2A2"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
 
+        android:paddingRight="10dp"
         app:compactCalendarBackgroundColor="#F8F8F8"
         app:compactCalendarCurrentDayBackgroundColor="#608BA8"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#B3A2A2"
@@ -22,9 +25,10 @@
         app:compactCalendarTextSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.172" />
 
     <ListView
         android:id="@+id/listEvents"
@@ -33,16 +37,23 @@
         android:layout_marginTop="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/compactcalendar_view" >
+        app:layout_constraintTop_toBottomOf="@+id/compactcalendar_view"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/textViewDate"
-            android:layout_width="215dp"
-            android:layout_height="64dp"
-            android:textAlignment="center"
-            android:textStyle="bold" />
-    </ListView>
-
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="215dp"
+        android:layout_height="64dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/compactcalendar_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
