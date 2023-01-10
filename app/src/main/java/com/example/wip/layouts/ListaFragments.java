@@ -2,6 +2,7 @@ package com.example.wip.layouts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,10 +47,13 @@ public class ListaFragments extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 //        if (getArguments() != null) {
 //            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
 //        }
         fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+
+
 
     }
 
