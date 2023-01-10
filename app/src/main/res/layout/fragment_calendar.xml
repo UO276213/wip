@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".layouts.CalendarActivity">
+    tools:context=".layouts.CalendarFragment">
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
@@ -34,19 +34,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/compactcalendar_view" />
+        app:layout_constraintTop_toBottomOf="@+id/compactcalendar_view" >
 
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="215dp"
+            android:layout_height="64dp"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+    </ListView>
 
-    <TextView
-        android:id="@+id/textViewDate"
-        android:layout_width="215dp"
-        android:layout_height="64dp"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/compactcalendar_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

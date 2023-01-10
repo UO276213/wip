@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class DetailsActivity extends AppCompatActivity {
     private String details;
     private boolean isFavorite;
     private Fiesta fiesta;
+    private ImageButton btnAddMemories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         btnFavorite = findViewById(R.id.btnFav);
         btnFavorite.setOnClickListener(view -> toggleFav());
+
+        /*btnAddMemories=findViewById(R.id.btnAddMemories);
+        btnAddMemories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent itent = new Intent(DetailsActivity.this, UploadMemories.class);
+            }
+        });*/
 
         Intent intent = getIntent();
         urlDetails = intent.getStringExtra(ListaFragments.ARG_FIESTAS);
