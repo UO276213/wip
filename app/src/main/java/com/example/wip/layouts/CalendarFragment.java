@@ -57,6 +57,8 @@ public class CalendarFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
+
+
     }
 
     private void isPartyOnSelectedDay(int year, int month, int dayOfTheMonth) {
