@@ -77,8 +77,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         urlDetails = intent.getStringExtra(ListaFragments.ARG_FIESTAS);
-        getDetails();
         fiesta = intent.getParcelableExtra(ListaFragments.FIESTA_SELECCIONADA);
+        getDetails();
 
         FiestasDataSource fds = new FiestasDataSource(getApplicationContext());
         fds.open();
@@ -116,7 +116,9 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
     private void getDetails() {
-        if (urlDetails.equals("")) setDetails(getResources().getString(R.string.no_details));
+        if (urlDetails.equals("")) {
+            setDefauldDetails();//Cuando no hay detalles
+        }
         else try {
             //Conseguimos el HTML con la librería "Ion"
             String url = "https://fiestas.net/" + urlDetails;
@@ -131,6 +133,12 @@ public class DetailsActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.layoutMain), R.string.error, Snackbar.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+
+    private void setDefauldDetails() {
+        //setDetails(getResources().getString(R.string.no_details));
+        details = fiesta.getName()+"\n"+fiesta.getDate()+"\n"+fiesta.getPlace();
+        setDetails(details);
     }
 
     private void setDetails(String details) {
@@ -149,10 +157,10 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView getTextViewType(TextView tv, int number) {
         String text = String.valueOf(tv.getText());
         List<String> days = Arrays.asList("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo", "del");
-        if (number == 1) {//titulo
+        if (number == 0) {//titulo
             tv.setTextSize(30);
             tv.setTextColor(Color.parseColor("#FF5733"));
-        } else if (number == 3) {//proximas actividades
+        } else if (number == 2) {//proximas actividades
             tv.setTextSize(20);
             tv.setTextColor(Color.parseColor("#000000"));
         } else if (!text.equals(""))//fechas u horas
