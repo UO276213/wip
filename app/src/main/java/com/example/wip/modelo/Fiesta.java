@@ -121,6 +121,6 @@ public class Fiesta implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return place + "\n\t" + name + "\n\t\t" + date + "\n" + id + "\n\t\t";
+        return place + "\n\t" + name;
     }
 }
