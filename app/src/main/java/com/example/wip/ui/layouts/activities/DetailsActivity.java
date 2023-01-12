@@ -56,6 +56,7 @@ public class DetailsActivity extends AppCompatActivity {
     private boolean isFavorite;
     private Fiesta fiesta;
     private ImageButton btnAddImage;
+    private TextView textMemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,9 @@ public class DetailsActivity extends AppCompatActivity {
         btnFavorite.setOnClickListener(view -> toggleFav());
 
         btnAddImage = findViewById(R.id.btnAddImage);
-        btnAddImage.setVisibility(View.GONE);
+        btnAddImage.setVisibility(View.INVISIBLE);
+
+        textMemo = findViewById(R.id.textMemorias);
 
         Intent intent = getIntent();
         urlDetails = intent.getStringExtra(ListaFragments.ARG_FIESTAS);
@@ -153,7 +156,7 @@ public class DetailsActivity extends AppCompatActivity {
         List<String> days = Arrays.asList("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo", "del");
         if (number == 0) {//titulo
             tv.setTextSize(30);
-            tv.setTextColor(Color.parseColor("#FF5733"));
+            tv.setTextColor(Color.parseColor("#63666A"));
         } else if (number == 2) {//proximas actividades
             tv.setTextSize(20);
             tv.setTextColor(Color.parseColor("#000000"));
@@ -184,10 +187,13 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void updateFavIcon() {
-        if (isFavorite)
+        if (isFavorite){
+            textMemo.setText("Sigue creando recuerdos!");
             btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)));
-        else
+        } else{
             btnFavorite.setImageDrawable((ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24)));
+        }
+
 
     }
 
@@ -198,6 +204,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (!isFavorite) {
             fiesta.setFavorite(true);
             fiesta.setId((int) fsd.insertFiesta(fiesta));
+            textMemo.setText("Sigue creando recuerdos!");
             Toast.makeText(this, getResources().getString(R.string.add_favourite_label), Toast.LENGTH_LONG).show();
             enableUploadImg();
             recyclerView.setVisibility(View.VISIBLE);
