@@ -1,4 +1,4 @@
-package com.example.wip;
+package com.example.wip.ui.layouts.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,14 +8,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.wip.R;
 import com.example.wip.data.UploadedImagesDataSource;
 import com.example.wip.data.records.ImagePartyRecord;
-import com.example.wip.layouts.DetailsActivity;
 
 public class ImageDetailsActivity extends AppCompatActivity {
 

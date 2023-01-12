@@ -1,8 +1,7 @@
-package com.example.wip.layouts;
+package com.example.wip.ui.layouts.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.wip.NavigationActivity;
+import com.example.wip.ui.layouts.activities.DetailsActivity;
+import com.example.wip.ui.layouts.activities.MainActivity;
+import com.example.wip.ui.layouts.activities.NavigationActivity;
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
 import com.example.wip.utils.adapters.ListaFiestasAdapter;

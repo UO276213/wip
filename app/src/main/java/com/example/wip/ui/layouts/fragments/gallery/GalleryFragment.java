@@ -1,4 +1,4 @@
-package com.example.wip.ui.gallery;
+package com.example.wip.ui.layouts.fragments.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,16 +12,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.wip.R;
 import com.example.wip.data.FiestasDataSource;
 import com.example.wip.databinding.FragmentGalleryBinding;
-import com.example.wip.layouts.CalendarFragment;
-import com.example.wip.layouts.ListaFragments;
-import com.example.wip.layouts.MapsFragment;
+import com.example.wip.ui.layouts.fragments.CalendarFragment;
+import com.example.wip.ui.layouts.fragments.ListaFragments;
+import com.example.wip.ui.layouts.fragments.MapsFragment;
 import com.example.wip.modelo.Fiesta;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GalleryFragment extends Fragment {
 

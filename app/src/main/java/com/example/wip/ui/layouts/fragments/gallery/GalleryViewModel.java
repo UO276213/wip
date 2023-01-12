@@ -1,4 +1,4 @@
-package com.example.wip.ui.gallery;
+package com.example.wip.ui.layouts.fragments.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

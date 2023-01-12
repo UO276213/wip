@@ -1,4 +1,4 @@
-package com.example.wip.ui.home;
+package com.example.wip.ui.layouts.fragments.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

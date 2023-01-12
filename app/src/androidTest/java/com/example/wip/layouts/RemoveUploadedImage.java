@@ -26,6 +26,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.GrantPermissionRule;
 
 import com.example.wip.R;
+import com.example.wip.ui.layouts.activities.MainActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

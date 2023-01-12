@@ -1,6 +1,4 @@
-package com.example.wip.layouts;
-
-import static com.example.wip.layouts.ListaFragments.FIESTA_SELECCIONADA;
+package com.example.wip.ui.layouts.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wip.NavigationActivity;
 import com.example.wip.R;
+import com.example.wip.ui.layouts.activities.DetailsActivity;
 import com.example.wip.modelo.Fiesta;
-import com.example.wip.utils.ParserFiestas;
-import com.example.wip.utils.adapters.ListaFiestasAdapter;
+import com.example.wip.utils.parsers.ParserFiestas;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -159,7 +155,7 @@ public class CalendarFragment extends Fragment {
                             Fiesta selectedItem = (Fiesta) parent.getItemAtPosition(position);
                             Intent itent = new Intent(getContext(), DetailsActivity.class);
                             itent.putExtra(ARG_FIESTAS, selectedItem.getDetails());
-                            itent.putExtra(FIESTA_SELECCIONADA, selectedItem);
+                            itent.putExtra(ListaFragments.FIESTA_SELECCIONADA, selectedItem);
                             startActivity(itent);
                         }
                     });

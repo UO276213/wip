@@ -1,4 +1,4 @@
-package com.example.wip.layouts;
+package com.example.wip.ui.layouts.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.example.wip.NavigationActivity;
 import com.example.wip.R;
-import com.example.wip.utils.ParserLugares;
+import com.example.wip.utils.parsers.ParserLugares;
 import com.google.android.material.snackbar.Snackbar;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
