@@ -27,7 +27,7 @@ public class ListaFragments extends Fragment {
     public static final String FIESTA_SELECCIONADA = "fiesta_seleccionada";
     private RecyclerView recyclerView;
 
-    private ArrayList<Fiesta> fiestas;
+    ArrayList<Fiesta> fiestas;
 
     public ListaFragments() {
     }
@@ -52,8 +52,6 @@ public class ListaFragments extends Fragment {
 //            fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
 //        }
         fiestas = getArguments().getParcelableArrayList(ARG_FIESTAS);
-
-
 
     }
 
