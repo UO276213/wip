@@ -1,6 +1,4 @@
-package com.example.wip.layouts;
-
-import static com.example.wip.layouts.ListaFragments.FIESTA_SELECCIONADA;
+package com.example.wip.ui.layouts.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,12 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.wip.R;
+import com.example.wip.ui.layouts.activities.DetailsActivity;
 import com.example.wip.modelo.Fiesta;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -59,7 +57,7 @@ public class MapsFragment extends Fragment implements
 
                 Intent itent = new Intent(getContext(), DetailsActivity.class);
                 itent.putExtra(ARG_FIESTAS, fiesta.getDetails());
-                itent.putExtra(FIESTA_SELECCIONADA, fiesta);
+                itent.putExtra(ListaFragments.FIESTA_SELECCIONADA, fiesta);
                 startActivity(itent);
 
                 return false;

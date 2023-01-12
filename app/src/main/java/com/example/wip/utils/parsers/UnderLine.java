@@ -1,4 +1,4 @@
-package com.example.wip.utils;
+package com.example.wip.utils.parsers;
 
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;

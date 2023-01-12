@@ -1,42 +1,18 @@
-package com.example.wip;
+package com.example.wip.ui.layouts.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 
+import com.example.wip.R;
 import com.example.wip.databinding.ActivityNavigationBinding;
-import com.example.wip.databinding.FragmentGalleryBinding;
-import com.example.wip.databinding.FragmentHomeBinding;
-import com.example.wip.layouts.CalendarFragment;
-import com.example.wip.layouts.ListaFragments;
-import com.example.wip.layouts.MainActivity;
-import com.example.wip.layouts.MapsFragment;
-import com.example.wip.modelo.Fiesta;
-import com.example.wip.ui.gallery.GalleryFragment;
-import com.example.wip.ui.home.HomeFragment;
-import com.example.wip.utils.ParserFiestas;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class NavigationActivity extends AppCompatActivity {
 

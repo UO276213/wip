@@ -32,17 +32,17 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ImageDetailsActivity"
+            android:name=".ui.layouts.activities.ImageDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".layouts.DetailsActivity"
+            android:name=".ui.layouts.activities.DetailsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".NavigationActivity"
+            android:name=".ui.layouts.activities.NavigationActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation"
             android:theme="@style/Theme.Wip.NoActionBar">
@@ -51,7 +51,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".layouts.MainActivity"
+            android:name=".ui.layouts.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

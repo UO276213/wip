@@ -1,9 +1,7 @@
 package com.example.wip.utils.adapters;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wip.BuildConfig;
 import com.example.wip.R;
 import com.example.wip.modelo.Fiesta;
-import com.example.wip.utils.UnderLine;
+import com.example.wip.utils.parsers.UnderLine;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ListaFiestasAdapter extends RecyclerView.Adapter<ListaFiestasAdapter.ListaFiestasAdapterViewHolder> {

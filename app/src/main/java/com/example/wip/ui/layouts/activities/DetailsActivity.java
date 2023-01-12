@@ -1,10 +1,9 @@
-package com.example.wip.layouts;
+package com.example.wip.ui.layouts.activities;
 
 import android.Manifest;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -28,20 +27,19 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.wip.BuildConfig;
-import com.example.wip.ImageDetailsActivity;
+import com.example.wip.ui.layouts.fragments.ListaFragments;
 import com.example.wip.R;
 import com.example.wip.data.FiestasDataSource;
 import com.example.wip.data.UploadedImagesDataSource;
 import com.example.wip.data.records.ImagePartyRecord;
 import com.example.wip.modelo.Fiesta;
-import com.example.wip.utils.ParserFiestas;
+import com.example.wip.utils.parsers.ParserFiestas;
 import com.example.wip.utils.adapters.ImageAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;

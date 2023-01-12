@@ -9,4 +9,4 @@
     map:cameraTilt="30"
     map:cameraZoom="7"
     map:mapType="normal"
-    tools:context=".layouts.MapsFragment" />
+    tools:context=".ui.layouts.fragments.MapsFragment" />
