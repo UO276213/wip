@@ -38,6 +38,12 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class SaveParty {
 
+    /**
+     * AVISO: A veces las pruebas no pasan a la primera. Hay que comenzar desde la ventana
+     * donde se eligen las comunidades. Para que funcionen los tests hay que haber dado
+     * en recordar elección cuando se piden permisos. Cada ejeccución puede verse afectada por pruebas anteriores.
+     */
+
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
@@ -55,7 +61,7 @@ public class SaveParty {
         materialButton.perform(click());
 
         ViewInteraction materialTextView = onView(
-                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebasti�n 2023"),
+                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebastián 2023"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.RelativeLayout")),
@@ -76,7 +82,7 @@ public class SaveParty {
         pressBack();
 
         ViewInteraction appCompatImageButton2 = onView(
-                allOf(withContentDescription("Abrir panel de navegaci�n"),
+                allOf(withContentDescription("Abrir panel de navegación"),
                         childAtPosition(
                                 allOf(withId(R.id.toolbar),
                                         childAtPosition(
@@ -98,10 +104,10 @@ public class SaveParty {
         navigationMenuItemView.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebasti�n 2023"),
+                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebastián 2023"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
                         isDisplayed()));
-        textView.check(matches(withText("Fiestas de San Sebasti�n 2023")));
+        textView.check(matches(withText("Fiestas de San Sebastián 2023")));
     }
 
     private static Matcher<View> childAtPosition(

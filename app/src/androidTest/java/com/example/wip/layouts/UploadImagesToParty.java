@@ -2,6 +2,7 @@ package com.example.wip.layouts;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -35,6 +36,11 @@ import org.junit.runner.RunWith;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class UploadImagesToParty {
+    /**
+     * AVISO: A veces las pruebas no pasan a la primera. Hay que comenzar desde la ventana
+     * donde se eligen las comunidades. Para que funcionen los tests hay que haber dado
+     * en recordar elección cuando se piden permisos. Cada ejeccución puede verse afectada por pruebas anteriores.
+     */
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -58,7 +64,7 @@ public class UploadImagesToParty {
         materialButton.perform(click());
 
         ViewInteraction materialTextView = onView(
-                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebasti�n 2023"),
+                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebastián 2023"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.RelativeLayout")),
@@ -66,12 +72,6 @@ public class UploadImagesToParty {
                                 0),
                         isDisplayed()));
         materialTextView.perform(click());
-
-        ViewInteraction imageButton = onView(
-                allOf(withId(R.id.btnFav),
-                        withParent(withParent(withId(R.id.scrollView))),
-                        isDisplayed()));
-        imageButton.check(matches(isDisplayed()));
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.btnFav),
@@ -82,11 +82,11 @@ public class UploadImagesToParty {
                                 1)));
         appCompatImageButton.perform(scrollTo(), click());
 
-        ViewInteraction imageButton2 = onView(
+        ViewInteraction imageButton = onView(
                 allOf(withId(R.id.btnAddImage),
                         withParent(withParent(withId(R.id.scrollView))),
                         isDisplayed()));
-        imageButton2.check(matches(isDisplayed()));
+        imageButton.check(matches(isDisplayed()));
 
         ViewInteraction appCompatImageButton2 = onView(
                 allOf(withId(R.id.btnAddImage),
@@ -96,6 +96,18 @@ public class UploadImagesToParty {
                                         0),
                                 2)));
         appCompatImageButton2.perform(scrollTo(), click());
+
+        pressBack();
+
+        ViewInteraction materialTextView2 = onView(
+                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebastián 2023"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        1),
+                                0),
+                        isDisplayed()));
+        materialTextView2.perform(click());
 
         ViewInteraction imageView = onView(
                 allOf(withId(R.id.grid_item_image),

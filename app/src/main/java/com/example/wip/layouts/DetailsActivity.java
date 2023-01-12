@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -169,7 +170,6 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void enableUploadImg() {
-        btnAddImage.setVisibility(View.GONE);
         btnAddImage.setOnClickListener(view -> {
             // Comprobamos si tenemos permiso para acceder a la galeria
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -194,22 +194,28 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void toggleFav() {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         FiestasDataSource fsd = new FiestasDataSource(getApplicationContext());
         fsd.open();
         if (!isFavorite) {
             fiesta.setFavorite(true);
             fiesta.setId((int) fsd.insertFiesta(fiesta));
-            Toast.makeText(this, "This is one of you favourite partys", Toast.LENGTH_LONG);
+            Toast.makeText(this, getResources().getString(R.string.add_favourite_label), Toast.LENGTH_LONG).show();
+            enableUploadImg();
+            recyclerView.setVisibility(View.VISIBLE);
+
         } else {
             fiesta.setFavorite(false);
             fsd.deleteParty(fiesta.getName());
-            Toast.makeText(this, "Sorry you don´t have fun at this party", Toast.LENGTH_LONG);
+            Toast.makeText(this, getResources().getString(R.string.delete_saved_party_label), Toast.LENGTH_LONG).show();
+
+            btnAddImage.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         }
         fsd.close();
         isFavorite = !isFavorite;
         updateFavIcon();
 
-        enableUploadImg();
     }
 
     private void showUploadView() {

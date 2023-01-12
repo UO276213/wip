@@ -17,5 +17,7 @@
     <string name="imagen_de_la_fiesta">Imagen de la fiesta</string>
     <string name="no_province">Toda la comunidad</string>
     <string name="image_uploaded_default_title">Escribe aquí un título</string>
+    <string name="add_favourite_label">Añadida a favoritas!</string>
+    <string name="delete_saved_party_label">Eliminada de fiestas favoritas</string>
 
 </resources>

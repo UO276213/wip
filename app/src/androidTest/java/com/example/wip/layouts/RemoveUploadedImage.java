@@ -2,8 +2,10 @@ package com.example.wip.layouts;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -34,7 +36,12 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class DeleteImageSaved {
+public class RemoveUploadedImage {
+    /**
+     * AVISO: A veces las pruebas no pasan a la primera. Hay que comenzar desde la ventana
+     * donde se eligen las comunidades. Para que funcionen los tests hay que haber dado
+     * en recordar elección cuando se piden permisos. Cada ejeccución puede verse afectada por pruebas anteriores.
+     */
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -46,7 +53,7 @@ public class DeleteImageSaved {
                     "android.permission.READ_EXTERNAL_STORAGE");
 
     @Test
-    public void deleteImageSaved() {
+    public void removeUploadedImage() {
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.search), withText("Buscar"),
                         childAtPosition(
@@ -58,7 +65,7 @@ public class DeleteImageSaved {
         materialButton.perform(click());
 
         ViewInteraction materialTextView = onView(
-                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebasti�n 2023"),
+                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebastián 2023"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.RelativeLayout")),
@@ -85,6 +92,18 @@ public class DeleteImageSaved {
                                 2)));
         appCompatImageButton2.perform(scrollTo(), click());
 
+        pressBack();
+
+        ViewInteraction materialTextView2 = onView(
+                allOf(withId(R.id.nombre_fiesta), withText("Fiestas de San Sebastián 2023"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        1),
+                                0),
+                        isDisplayed()));
+        materialTextView2.perform(click());
+
         ViewInteraction imageView = onView(
                 allOf(withId(R.id.grid_item_image),
                         withParent(withParent(withId(R.id.recyclerView))),
@@ -110,12 +129,11 @@ public class DeleteImageSaved {
                         isDisplayed()));
         floatingActionButton.perform(click());
 
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.recyclerView),
-                        withParent(withParent(withId(R.id.scrollView))),
+        ViewInteraction imageView2 = onView(
+                allOf(withId(R.id.grid_item_image),
+                        withParent(withParent(withId(R.id.recyclerView))),
                         isDisplayed()));
-        recyclerView.check(matches(isDisplayed()));
-
+        imageView2.check(doesNotExist());
     }
 
     private static Matcher<View> childAtPosition(
