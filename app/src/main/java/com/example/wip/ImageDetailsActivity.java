@@ -2,12 +2,14 @@ package com.example.wip;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.Button;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -31,12 +33,40 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
         ImageButton deleteBtn = findViewById(R.id.deleteBtn); // init a ImageView
         deleteBtn.setOnClickListener(view -> deleteImagePartyRecord(imagePartyRecord));
+
+        EditText imageTitle = findViewById(R.id.edit_image_title);
+
+        String title = imagePartyRecord.getTitle();
+        imageTitle.setText(title != null ? title: getResources().getString(R.string.image_uploaded_default_title));
+
+        imageTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateImageTitle(imagePartyRecord, s.toString());
+            }
+        });
     }
 
-    private void deleteImagePartyRecord(ImagePartyRecord ImagePartyRecord) {
+    private void updateImageTitle(ImagePartyRecord imagePartyRecord, String title) {
         UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
         dataSource.open();
-        dataSource.deleteImageParty(ImagePartyRecord.getId());
+        dataSource.updateImageTitle(imagePartyRecord.getId(), title);
+        dataSource.close();
+    }
+
+    private void deleteImagePartyRecord(ImagePartyRecord imagePartyRecord) {
+        UploadedImagesDataSource dataSource = new UploadedImagesDataSource(getApplicationContext());
+        dataSource.open();
+        dataSource.deleteImageParty(imagePartyRecord.getId());
         dataSource.close();
 
         finish();

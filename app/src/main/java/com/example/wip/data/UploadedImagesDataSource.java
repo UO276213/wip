@@ -28,7 +28,7 @@ public class UploadedImagesDataSource {
     /**
      * Columnas de la tabla
      */
-    private final String[] allColumns = {MyDBHelper.COLUMNA_ID_IMAGEN, MyDBHelper.COLUMNA_PATH};
+    private final String[] allColumns = {MyDBHelper.COLUMNA_ID_IMAGEN, MyDBHelper.COLUMNA_PATH, MyDBHelper.COLUMNA_IMG_TITLE};
 
     /**
      * Constructor.
@@ -59,6 +59,10 @@ public class UploadedImagesDataSource {
         dbHelper.close();
     }
 
+    public long insertImage(String path, int fiestaId) {
+        return insertImage(path, fiestaId, null);
+    }
+
     /**
      * Recibe la imagen y crea el registro en la base de datos.
      *
@@ -66,7 +70,7 @@ public class UploadedImagesDataSource {
      * @param fiestaId
      * @return
      */
-    public long insertImage(String path, int fiestaId) {
+    public long insertImage(String path, int fiestaId, String title) {
         // Establecemos los valores que se insertaran
         ContentValues values = new ContentValues();
         int id = new Random().nextInt();
@@ -74,6 +78,7 @@ public class UploadedImagesDataSource {
         values.put(MyDBHelper.COLUMNA_ID_IMAGEN, id);
         values.put(MyDBHelper.COLUMNA_ID_PARTY, fiestaId);
         values.put(MyDBHelper.COLUMNA_PATH, path);
+        values.put(MyDBHelper.COLUMNA_IMG_TITLE, title);
 
         // Insertamos la valoracion
         long insertId =
@@ -98,7 +103,10 @@ public class UploadedImagesDataSource {
             int id = cursor.getInt(0);
             int idParty = cursor.getInt(1);
             String imagePath = cursor.getString(2);
-            images.add(new ImagePartyRecord(id, imagePath, idParty));
+            String title = null;
+            if (!cursor.isNull(3))
+                title = cursor.getString(3);
+            images.add(new ImagePartyRecord(id, imagePath, idParty, title));
             cursor.moveToNext();
         }
 
@@ -127,7 +135,10 @@ public class UploadedImagesDataSource {
             int id = cursor.getInt(0);
             int idParty = cursor.getInt(1);
             String imagePath = cursor.getString(2);
-            images.add(new ImagePartyRecord(id, imagePath, idParty));
+            String title = null;
+            if (!cursor.isNull(3))
+                title = cursor.getString(3);
+            images.add(new ImagePartyRecord(id, imagePath, idParty, title));
             cursor.moveToNext();
         }
 
@@ -146,6 +157,13 @@ public class UploadedImagesDataSource {
     public int deleteImageParty(int id){
         String[] argumentos = {String.valueOf(id)};
         return database.delete(MyDBHelper.TABLA_IMAGENES_SUBIDAS, "id_imagen = ?", argumentos);
+    }
+
+    public int updateImageTitle(int idImg, String newTitle){
+        String[] argumentos = {String.valueOf(idImg)};
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDBHelper.COLUMNA_IMG_TITLE, newTitle );
+        return database.update(MyDBHelper.TABLA_IMAGENES_SUBIDAS, contentValues, "id_imagen = ?", argumentos);
     }
 
 }

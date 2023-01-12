@@ -8,17 +8,20 @@ public class ImagePartyRecord implements Parcelable {
     private int id;
     private String imagePath;
     private int idParty;
+    private String title;
 
-    public ImagePartyRecord(int id, String imagePath, int idParty) {
+    public ImagePartyRecord(int id, String imagePath, int idParty, String title) {
         this.id = id;
         this.imagePath = imagePath;
         this.idParty = idParty;
+        this.title = title;
     }
 
     protected ImagePartyRecord(Parcel in) {
         id = in.readInt();
         imagePath = in.readString();
         idParty = in.readInt();
+        title = in.readString();
     }
 
     public static final Creator<ImagePartyRecord> CREATOR = new Creator<ImagePartyRecord>() {
@@ -53,6 +56,14 @@ public class ImagePartyRecord implements Parcelable {
         this.idParty = idParty;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -63,6 +74,7 @@ public class ImagePartyRecord implements Parcelable {
         dest.writeInt(id);
         dest.writeString(imagePath);
         dest.writeInt(idParty);
+        dest.writeString(title);
     }
 }
 

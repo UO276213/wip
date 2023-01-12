@@ -11,7 +11,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
      * Nombre y version de la base de datos
      */
     private static final String DATABASE_NAME = "fiestas.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     /**
      * Nombre de la tabla fiestas y sus columnas
@@ -32,6 +32,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public static final String COLUMNA_ID_IMAGEN = "id_imagen";
     public static final String COLUMNA_PATH = "image_path";
     public static final String COLUMNA_ID_PARTY = "id_fiesta";
+    public static final String COLUMNA_IMG_TITLE = "title_img";
 
 
     /**
@@ -48,7 +49,9 @@ public class MyDBHelper extends SQLiteOpenHelper {
      */
     private static final String CREATE_TABLA_IMAGENES_SUBIDAS = "create table if not exists " +
             TABLA_IMAGENES_SUBIDAS + "( " + COLUMNA_ID_IMAGEN + " " + "integer primary key, " +
-            COLUMNA_ID_PARTY + " integer, " + COLUMNA_PATH + " text not null " + ");";
+            COLUMNA_ID_PARTY + " integer, " + COLUMNA_PATH + " text not null, " + COLUMNA_IMG_TITLE +
+            " text" +
+            ");";
 
     /**
      * Script para borrar la base de datos (SQL)

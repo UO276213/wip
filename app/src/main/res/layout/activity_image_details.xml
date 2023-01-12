@@ -8,23 +8,44 @@
 
     <ImageView
         android:id="@+id/selectedImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="68dp"
+        android:maxHeight="500dp"
+        android:minWidth="250dp"
+        android:minHeight="250dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="500dp"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
+    <EditText
+        android:id="@+id/edit_image_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="48dp"
+        android:ems="14"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="@string/image_uploaded_default_title"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedImage" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/deleteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="16dp"
-        android:contentDescription="@string/imagen_de_la_fiesta"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        app:layout_constraintEnd_toEndOf="@+id/selectedImage"
+        app:srcCompat="@drawable/trash_icon"
+        app:useCompatPadding="false" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
