@@ -1,5 +1,7 @@
 package com.example.wip.layouts;
 
+import static com.example.wip.layouts.ListaFragments.FIESTA_SELECCIONADA;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -105,7 +108,7 @@ public class CalendarFragment extends Fragment {
                 if(date.get(1)==month){
                     compactCalendarView.addEvent(new Event(
                             Color.GRAY, getDateInMilis(date.get(0),month),
-                            fiesta.getName()));
+                            fiesta));
                 }
             }
 
@@ -142,14 +145,24 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
-                ArrayList<String> party = new ArrayList<String>();
+                ArrayList<Fiesta> party = new ArrayList<Fiesta>();
                 if(!events.isEmpty()){
                     for(Event e:events){
-                        party.add((String) e.getData());
+                        party.add(((Fiesta)e.getData()));
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                    ArrayAdapter<Fiesta> adapter = new ArrayAdapter<Fiesta>(getContext(),
                                     android.R.layout.simple_list_item_1, party);
                     listEvents.setAdapter(adapter);
+                    listEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Fiesta selectedItem = (Fiesta) parent.getItemAtPosition(position);
+                            Intent itent = new Intent(getContext(), DetailsActivity.class);
+                            itent.putExtra(ARG_FIESTAS, selectedItem.getDetails());
+                            itent.putExtra(FIESTA_SELECCIONADA, selectedItem);
+                            startActivity(itent);
+                        }
+                    });
                 }
 
             }
@@ -171,5 +184,7 @@ public class CalendarFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_calendar, container, false);
     }
+
+
 
 }
