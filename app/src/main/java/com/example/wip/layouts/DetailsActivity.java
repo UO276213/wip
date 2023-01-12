@@ -56,7 +56,7 @@ public class DetailsActivity extends AppCompatActivity {
     private String details;
     private boolean isFavorite;
     private Fiesta fiesta;
-    private ImageButton btnAddMemories;
+    private ImageButton btnAddImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +67,8 @@ public class DetailsActivity extends AppCompatActivity {
         btnFavorite = findViewById(R.id.btnFav);
         btnFavorite.setOnClickListener(view -> toggleFav());
 
-        /*btnAddMemories=findViewById(R.id.btnAddMemories);
-        btnAddMemories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent itent = new Intent(DetailsActivity.this, UploadMemories.class);
-            }
-        });*/
+        btnAddImage = findViewById(R.id.btnAddImage);
+        btnAddImage.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         urlDetails = intent.getStringExtra(ListaFragments.ARG_FIESTAS);
@@ -174,8 +169,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void enableUploadImg() {
-
-        ImageView btnAddImage = findViewById(R.id.btnAddImage);
+        btnAddImage.setVisibility(View.GONE);
         btnAddImage.setOnClickListener(view -> {
             // Comprobamos si tenemos permiso para acceder a la galeria
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

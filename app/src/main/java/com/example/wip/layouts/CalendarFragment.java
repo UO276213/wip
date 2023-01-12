@@ -83,14 +83,13 @@ public class CalendarFragment extends Fragment {
 
     private long getDateInMilis(int day, int month){
         Calendar calendar = Calendar.getInstance();
-        String toParse = day + "-" + (month+1) + "-2023"+ " " + "5:00";
+        String toParse = day + "-" + (month+1) + "-" + calendar.get(Calendar.YEAR)+ " " + "5:00";
         // Results in "2-5-2012 20:43"
         SimpleDateFormat formatter = new SimpleDateFormat("d-M-yyyy hh:mm");
         // I assume dM, you may refer to Md for month-day instead.
         Date date = null;
         try {
             date = formatter.parse(toParse);
-
             calendar.setTime(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -106,8 +105,7 @@ public class CalendarFragment extends Fragment {
                 if(date.get(1)==month){
                     compactCalendarView.addEvent(new Event(
                             Color.GRAY, getDateInMilis(date.get(0),month),
-                            fiesta.getName()
-                    ));
+                            fiesta.getName()));
                 }
             }
 
@@ -120,10 +118,10 @@ public class CalendarFragment extends Fragment {
         String year = (new SimpleDateFormat("y", idioma)).format(date);
         return month + " " + year;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         addToLayout();
     }
 
@@ -144,17 +142,18 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
-                ArrayList<String> partys = new ArrayList<String>();
+                ArrayList<String> party = new ArrayList<String>();
                 if(!events.isEmpty()){
                     for(Event e:events){
-                        partys.add((String) e.getData());
+                        party.add((String) e.getData());
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                                    android.R.layout.simple_list_item_1, partys);
+                                    android.R.layout.simple_list_item_1, party);
                     listEvents.setAdapter(adapter);
                 }
 
             }
+
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
