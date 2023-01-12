@@ -216,7 +216,7 @@ public class DetailsActivity extends AppCompatActivity {
             fsd.deleteParty(fiesta.getName());
             Toast.makeText(this, getResources().getString(R.string.delete_saved_party_label), Toast.LENGTH_LONG).show();
 
-            btnAddImage.setVisibility(View.GONE);
+            btnAddImage.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
         fsd.close();
