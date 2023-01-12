@@ -1,8 +1,7 @@
-package com.example.wip.ui.home;
+package com.example.wip.ui.layouts.fragments.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wip.R;
-import com.example.wip.layouts.CalendarFragment;
-import com.example.wip.layouts.ListaFragments;
-import com.example.wip.layouts.MainActivity;
-import com.example.wip.layouts.MapsFragment;
+import com.example.wip.ui.layouts.fragments.CalendarFragment;
+import com.example.wip.ui.layouts.fragments.ListaFragments;
+import com.example.wip.ui.layouts.activities.MainActivity;
+import com.example.wip.ui.layouts.fragments.MapsFragment;
 import com.example.wip.modelo.Fiesta;
-import com.example.wip.utils.ParserFiestas;
+import com.example.wip.utils.parsers.ParserFiestas;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;

@@ -25,6 +25,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import com.example.wip.R;
+import com.example.wip.ui.layouts.activities.MainActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
